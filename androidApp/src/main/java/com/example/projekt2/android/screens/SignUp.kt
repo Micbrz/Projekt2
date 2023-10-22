@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.example.projekt2.android.Components.EmailText
 import com.example.projekt2.android.Components.NormalTextComponent
 import com.example.projekt2.android.Components.PasswordText
+import com.example.projekt2.android.Components.RegistrationButton
 import com.example.projekt2.android.Components.RepeatPassword
 
 import com.example.projekt2.android.R
@@ -31,6 +32,7 @@ fun SignUp() {
             EmailText()
             PasswordText()
             RepeatPassword()
+            RegistrationButton()
         }
     }
 }
