@@ -1,8 +1,7 @@
 package com.example.projekt2.android.Components
 
-import androidx.compose.foundation.BorderStroke
+
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,34 +15,27 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Brush.Companion.horizontalGradient
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projekt2.android.Primary
-
 import com.example.projekt2.android.Secondary
-import com.example.projekt2.android.TextColor
+
 
 
 @Composable
-fun NormalTextComponent(LoginText: String) {
+fun NormalTextComponent(loginText: String) {
     Text(
-        text = LoginText,
+        text = loginText,
         modifier = Modifier.fillMaxWidth().heightIn(min=50.dp),
         style = TextStyle(
             fontSize = 20.sp,
@@ -56,9 +48,9 @@ fun NormalTextComponent(LoginText: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EmailText(labelValue: String,painterResource: Painter) {
+fun EmailText(labelValue: String,painterResource: Painter,onTextSelected: (String) -> Unit) {
     val email = remember { mutableStateOf("") }
-    val maxchar = 15
+    val maxchar = 25
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),maxLines = 1,
 
@@ -69,7 +61,8 @@ fun EmailText(labelValue: String,painterResource: Painter) {
         value = email.value,
         onValueChange = { if(it.length <= maxchar){
                                 email.value = it
-                            } },
+                            }
+                        onTextSelected(it)},
         label = {Text(text = labelValue)},
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
@@ -102,7 +95,7 @@ fun PasswordText(labelValue : String,onTextSelected: (String) -> Unit,painterRes
     )
 }
 @Composable
-fun RepeatPassword(labelValue : String,painterResource:Painter){
+fun RepeatPassword(labelValue : String,painterResource:Painter,onTextSelected:(String) -> Unit){
     val maxChar = 10
     val repeatPassword = remember{mutableStateOf("")}
     OutlinedTextField(
@@ -111,7 +104,8 @@ fun RepeatPassword(labelValue : String,painterResource:Painter){
             if(it.length <= maxChar)
             {
                 repeatPassword.value = it
-            }},
+            }
+            onTextSelected(it)},
 
         shape = RoundedCornerShape(20),
         label = {Text(text = labelValue) },
@@ -128,12 +122,13 @@ fun RepeatPassword(labelValue : String,painterResource:Painter){
 }
 
 @Composable
-fun RegistrationButton(){
-    Button(onClick = {},
+fun RegistrationButton(value : String, onButtonClicked: () -> Unit){
+    Button(onClick = { onButtonClicked.invoke()},
         modifier = Modifier.fillMaxWidth()
             .heightIn(20.dp),
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.White))
+
     {
         Box(
             modifier = Modifier.fillMaxWidth().background(
@@ -142,7 +137,9 @@ fun RegistrationButton(){
             ),
             contentAlignment = Alignment.Center
         ){
-            Text(text = "Rejestracja")
+            Text(
+                text = value
+            )
         }
     }
 }

@@ -3,4 +3,5 @@
     <string name="email">E-mail</string>
     <string name="password">Hasło</string>
     <string name="repeatpassword">Powtorz Haslo</string>
+    <string name="register">Rejestracja</string>>
 </resources>

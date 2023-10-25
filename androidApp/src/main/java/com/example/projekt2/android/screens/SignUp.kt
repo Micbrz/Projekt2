@@ -20,11 +20,14 @@ import com.example.projekt2.android.Components.RegistrationButton
 import com.example.projekt2.android.Components.RepeatPassword
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.projekt2.android.Data.LoginViewModel
+import com.example.projekt2.android.Data.UIEvent
 
 import com.example.projekt2.android.R
 
 @Composable
-fun SignUp() {
+fun SignUp(loginViewModel: LoginViewModel = viewModel()) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center) {
         Surface(
@@ -33,21 +36,32 @@ fun SignUp() {
         ) {
             Column() {
                 Spacer(modifier = Modifier.height(2.dp))
-                NormalTextComponent(LoginText = stringResource(id = R.string.RegisterText))
+                NormalTextComponent(loginText = stringResource(id = R.string.RegisterText))
                 EmailText(
                     labelValue = stringResource(id=R.string.email),
-                    painterResource = painterResource(id = R.drawable.profile))
+                    painterResource = painterResource(id = R.drawable.profile),
+                    onTextSelected={
+                        loginViewModel.onEvent(UIEvent.EmailChanged(it))
+                    })
                 PasswordText(
                     labelValue = stringResource(id=R.string.password),
                     painterResource = painterResource(id = R.drawable.ic_lock),
                     onTextSelected={
-
+                        loginViewModel.onEvent(UIEvent.PasswordChanged(it))
                     }
                     )
                 RepeatPassword(
                     labelValue = stringResource(id=R.string.repeatpassword),
-                    painterResource = painterResource(id=R.drawable.ic_lock))
-                RegistrationButton()
+                    painterResource = painterResource(id=R.drawable.ic_lock),
+                    onTextSelected={
+                        loginViewModel.onEvent(UIEvent.RepeatPasswordChanged(it))
+                    })
+                RegistrationButton(
+                    value = stringResource(id=R.string.register),
+                    onButtonClicked = {
+                        loginViewModel.onEvent(UIEvent.RegisterButtonClicked)
+                    }
+                )
             }
         }
     }
@@ -63,7 +77,7 @@ fun DefaultPreview()
 
     Surface(
         modifier = Modifier.fillMaxSize()
-        .padding(28.dp)
+        .padding(24.dp)
 
     )
     {
