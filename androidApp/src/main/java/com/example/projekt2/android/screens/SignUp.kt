@@ -40,12 +40,14 @@ fun SignUp(loginViewModel: LoginViewModel = viewModel()) {
                 EmailText(
                     labelValue = stringResource(id=R.string.email),
                     painterResource = painterResource(id = R.drawable.profile),
+                    errorStatus = loginViewModel.registrationUIState.value.emailError,
                     onTextSelected={
                         loginViewModel.onEvent(UIEvent.EmailChanged(it))
-                    })
+                    } )
                 PasswordText(
                     labelValue = stringResource(id=R.string.password),
                     painterResource = painterResource(id = R.drawable.ic_lock),
+                    errorStatus = loginViewModel.registrationUIState.value.passwordError,
                     onTextSelected={
                         loginViewModel.onEvent(UIEvent.PasswordChanged(it))
                     }
@@ -53,6 +55,7 @@ fun SignUp(loginViewModel: LoginViewModel = viewModel()) {
                 RepeatPassword(
                     labelValue = stringResource(id=R.string.repeatpassword),
                     painterResource = painterResource(id=R.drawable.ic_lock),
+                    errorStatus = loginViewModel.registrationUIState.value.repeatpasswordError,
                     onTextSelected={
                         loginViewModel.onEvent(UIEvent.RepeatPasswordChanged(it))
                     })
@@ -60,7 +63,8 @@ fun SignUp(loginViewModel: LoginViewModel = viewModel()) {
                     value = stringResource(id=R.string.register),
                     onButtonClicked = {
                         loginViewModel.onEvent(UIEvent.RegisterButtonClicked)
-                    }
+                    },
+                    isEnabled = loginViewModel.allValidationsPassed.value
                 )
             }
         }

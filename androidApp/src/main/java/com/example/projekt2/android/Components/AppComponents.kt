@@ -48,7 +48,8 @@ fun NormalTextComponent(loginText: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EmailText(labelValue: String,painterResource: Painter,onTextSelected: (String) -> Unit) {
+fun EmailText(labelValue: String,painterResource: Painter,
+              onTextSelected: (String) -> Unit,errorStatus:Boolean = false) {
     val email = remember { mutableStateOf("") }
     val maxchar = 25
     OutlinedTextField(
@@ -66,15 +67,16 @@ fun EmailText(labelValue: String,painterResource: Painter,onTextSelected: (Strin
         label = {Text(text = labelValue)},
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
-        }
-
+        },
+        isError = !errorStatus
     )
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordText(labelValue : String,onTextSelected: (String) -> Unit,painterResource: Painter){
+fun PasswordText(labelValue : String,onTextSelected: (String) -> Unit,
+                 painterResource: Painter,errorStatus:Boolean = false){
     val password = remember{mutableStateOf("")}
-    val maxchar = 10
+    val maxchar = 15
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),maxLines = 1,
         colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -92,11 +94,13 @@ fun PasswordText(labelValue : String,onTextSelected: (String) -> Unit,painterRes
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
         },
+        isError = !errorStatus
     )
 }
 @Composable
-fun RepeatPassword(labelValue : String,painterResource:Painter,onTextSelected:(String) -> Unit){
-    val maxChar = 10
+fun RepeatPassword(labelValue : String,painterResource:Painter,
+                   onTextSelected:(String) -> Unit,errorStatus:Boolean = false){
+    val maxChar = 15
     val repeatPassword = remember{mutableStateOf("")}
     OutlinedTextField(
         value = repeatPassword.value,
@@ -113,7 +117,7 @@ fun RepeatPassword(labelValue : String,painterResource:Painter,onTextSelected:(S
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
         },
-
+        isError = !errorStatus
     )
 
 
@@ -122,12 +126,13 @@ fun RepeatPassword(labelValue : String,painterResource:Painter,onTextSelected:(S
 }
 
 @Composable
-fun RegistrationButton(value : String, onButtonClicked: () -> Unit){
+fun RegistrationButton(value : String, onButtonClicked: () -> Unit, isEnabled: Boolean = false){
     Button(onClick = { onButtonClicked.invoke()},
         modifier = Modifier.fillMaxWidth()
             .heightIn(20.dp),
         contentPadding = PaddingValues(),
-        colors = ButtonDefaults.buttonColors(Color.White))
+        colors = ButtonDefaults.buttonColors(Color.White),
+        enabled = isEnabled)
 
     {
         Box(
