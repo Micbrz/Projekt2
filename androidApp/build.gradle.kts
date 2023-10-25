@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     kotlin("android")
     id("org.jetbrains.compose")
+    id("com.google.gms.google-services")
+
 }
 
 android {
@@ -40,17 +42,22 @@ android {
 }
 
 dependencies {
+
+    //noinspection GradleCompatible
+    implementation("com.android.support:appcompat-v7:28.0.0")
     implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
     implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation(libs.play.services.auth)
     implementation(projects.shared)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.firebase.auth)
     debugImplementation(libs.compose.ui.tooling)
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.4")
-    implementation("androidx.cardview:cardview:1.0.0")
+    implementation(libs.androidx.navigation.fragment.ktx)
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation("androidx.compose.ui:ui-test-manifest:1.5.3")
+    implementation("androidx.compose.material:material-icons-extended:1.5.3")
 }

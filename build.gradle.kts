@@ -1,8 +1,14 @@
+buildscript {
+    dependencies {
+        classpath("com.google.gms:google-services:4.4.0")
+    }
+}
 plugins {
     kotlin("multiplatform").apply(false)
     id("com.android.application").apply(false)
     id("com.android.library").apply(false)
     id("org.jetbrains.compose").apply(false)
+
 }
 
 

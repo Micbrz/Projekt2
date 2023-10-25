@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Brush.Companion.horizontalGradient
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -52,55 +53,72 @@ fun NormalTextComponent(LoginText: String) {
     )
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
-
 @Composable
-fun EmailText() {
-    var Email by remember { mutableStateOf("") }
-
+fun EmailText(labelValue: String,painterResource: Painter) {
+    val email = remember { mutableStateOf("") }
+    val maxchar = 15
     OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),maxLines = 1,
+
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Primary
         ),
         shape = RoundedCornerShape(20),
-        value = Email,
-        onValueChange = { Email = it },
-        label = { Text("E-mail") }
+        value = email.value,
+        onValueChange = { if(it.length <= maxchar){
+                                email.value = it
+                            } },
+        label = {Text(text = labelValue)},
+        leadingIcon = {
+            Icon(painter = painterResource, contentDescription = "")
+        }
+
     )
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordText(){
-    var Password by remember{mutableStateOf("")}
-
+fun PasswordText(labelValue : String,onTextSelected: (String) -> Unit,painterResource: Painter){
+    val password = remember{mutableStateOf("")}
+    val maxchar = 10
     OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),maxLines = 1,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Primary
 
         ),
         shape = RoundedCornerShape(20),
-        value = Password,
-        onValueChange = {Password = it},
-        label = {Text("Hasło")},
-        //leadingIcon = {Icon(painter = painterResource(id = R.drawable.profile), contentDescription="")}
+        value = password.value,
+        onValueChange = {
+                        if(it.length <= maxchar){
+                            password.value = it
+                        }
+                        onTextSelected(it)},
+        label = {Text(text = labelValue)},
+        leadingIcon = {
+            Icon(painter = painterResource, contentDescription = "")
+        },
     )
 }
 @Composable
-fun RepeatPassword(){
+fun RepeatPassword(labelValue : String,painterResource:Painter){
     val maxChar = 10
-    var RepeatPassword by remember{mutableStateOf("")}
+    val repeatPassword = remember{mutableStateOf("")}
     OutlinedTextField(
-        value = RepeatPassword,
+        value = repeatPassword.value,
         onValueChange = {
             if(it.length <= maxChar)
             {
-                RepeatPassword = it
+                repeatPassword.value = it
             }},
+
         shape = RoundedCornerShape(20),
-
-
-        label = {Text("Powtorz Haslo") },
-        modifier = Modifier.fillMaxWidth(),maxLines = 1
+        label = {Text(text = labelValue) },
+        modifier = Modifier.fillMaxWidth(),maxLines = 1,
+        leadingIcon = {
+            Icon(painter = painterResource, contentDescription = "")
+        },
 
     )
 

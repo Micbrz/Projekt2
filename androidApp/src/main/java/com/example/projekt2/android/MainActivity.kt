@@ -1,6 +1,8 @@
 package com.example.projekt2.android
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -17,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.projekt2.Greeting
 import com.example.projekt2.android.screens.DefaultPreview
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : ComponentActivity() {
@@ -39,7 +42,20 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    fun createUserInFirebase(email:String, password:String){
+        
+        FirebaseAuth.getInstance()
+            .createUserWithEmailAndPassword(email,password)
+            .addOnCompleteListener{
+                Log.d(TAG,"isSuccessful = ${it.isSuccessful}")
+            }.addOnFailureListener{
+                Log.d(TAG,"isFailure = ${it.message}")
+            }
+    }
+
 }
+
+
 
 
 
