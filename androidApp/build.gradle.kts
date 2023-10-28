@@ -42,7 +42,7 @@ android {
 }
 
 dependencies {
-
+    implementation("androidx.navigation:navigation-compose:2.7.4")
     //noinspection GradleCompatible
     implementation("com.android.support:appcompat-v7:28.0.0")
     implementation(platform("com.google.firebase:firebase-bom:32.4.0"))

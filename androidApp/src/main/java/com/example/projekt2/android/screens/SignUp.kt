@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
@@ -21,13 +20,18 @@ import com.example.projekt2.android.Components.RepeatPassword
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.example.projekt2.android.Components.HomeScreenn
 import com.example.projekt2.android.Data.LoginViewModel
 import com.example.projekt2.android.Data.UIEvent
-
 import com.example.projekt2.android.R
+//import com.example.projekt2.android.navigation.PostOfficeAppRouter
+import com.example.projekt2.android.navigation.Screenss
+
 
 @Composable
-fun SignUp(loginViewModel: LoginViewModel = viewModel()) {
+fun SignUp(navController: NavHostController, loginViewModel: LoginViewModel = viewModel()) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center) {
         Surface(
@@ -51,7 +55,7 @@ fun SignUp(loginViewModel: LoginViewModel = viewModel()) {
                     onTextSelected={
                         loginViewModel.onEvent(UIEvent.PasswordChanged(it))
                     }
-                    )
+                )
                 RepeatPassword(
                     labelValue = stringResource(id=R.string.repeatpassword),
                     painterResource = painterResource(id=R.drawable.ic_lock),
@@ -66,6 +70,8 @@ fun SignUp(loginViewModel: LoginViewModel = viewModel()) {
                     },
                     isEnabled = loginViewModel.allValidationsPassed.value
                 )
+                HomeScreenn(onClick={navController.navigate(Screenss.Home.route)})
+
             }
         }
     }
@@ -74,17 +80,15 @@ fun SignUp(loginViewModel: LoginViewModel = viewModel()) {
 
 
 
+
+/*
 @Preview
 @Composable
 fun DefaultPreview()
 {
 
-    Surface(
-        modifier = Modifier.fillMaxSize()
-        .padding(24.dp)
 
-    )
-    {
-        SignUp()
-    }
-}
+
+
+}*/
+
