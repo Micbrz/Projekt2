@@ -23,15 +23,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.projekt2.android.Components.HomeScreenn
-import com.example.projekt2.android.Data.LoginViewModel
-import com.example.projekt2.android.Data.UIEvent
+import com.example.projekt2.android.Data.SignUpUIEvent
+import com.example.projekt2.android.Data.SignUpViewModel
+
 import com.example.projekt2.android.R
 //import com.example.projekt2.android.navigation.PostOfficeAppRouter
 import com.example.projekt2.android.navigation.Screenss
 
 
 @Composable
-fun SignUp(navController: NavHostController, loginViewModel: LoginViewModel = viewModel()) {
+fun SignUp(navController: NavHostController, SignUpViewModel: SignUpViewModel = viewModel()) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center) {
         Surface(
@@ -44,33 +45,34 @@ fun SignUp(navController: NavHostController, loginViewModel: LoginViewModel = vi
                 EmailText(
                     labelValue = stringResource(id=R.string.email),
                     painterResource = painterResource(id = R.drawable.profile),
-                    errorStatus = loginViewModel.registrationUIState.value.emailError,
+                    errorStatus = SignUpViewModel.SignUpUIState.value.emailError,
                     onTextSelected={
-                        loginViewModel.onEvent(UIEvent.EmailChanged(it))
+                        SignUpViewModel.onEvent(SignUpUIEvent.EmailChanged(it))
                     } )
                 PasswordText(
                     labelValue = stringResource(id=R.string.password),
                     painterResource = painterResource(id = R.drawable.ic_lock),
-                    errorStatus = loginViewModel.registrationUIState.value.passwordError,
+                    errorStatus = SignUpViewModel.SignUpUIState.value.passwordError,
                     onTextSelected={
-                        loginViewModel.onEvent(UIEvent.PasswordChanged(it))
+                        SignUpViewModel.onEvent(SignUpUIEvent.PasswordChanged(it))
                     }
                 )
                 RepeatPassword(
-                    labelValue = stringResource(id=R.string.repeatpassword),
+                    labelValue = stringResource(id=R.string.Name),
                     painterResource = painterResource(id=R.drawable.ic_lock),
-                    errorStatus = loginViewModel.registrationUIState.value.repeatpasswordError,
+                    errorStatus = SignUpViewModel.SignUpUIState.value.repeatpasswordError,
                     onTextSelected={
-                        loginViewModel.onEvent(UIEvent.RepeatPasswordChanged(it))
+                        SignUpViewModel.onEvent(SignUpUIEvent.RepeatPasswordChanged(it))
                     })
+
                 RegistrationButton(
                     value = stringResource(id=R.string.register),
                     onButtonClicked = {
-                        loginViewModel.onEvent(UIEvent.RegisterButtonClicked)
+                        SignUpViewModel.onEvent(SignUpUIEvent.RegisterButtonClicked)
                     },
-                    isEnabled = loginViewModel.allValidationsPassed.value
+                    isEnabled = SignUpViewModel.allValidationsPassed.value
                 )
-                HomeScreenn(onClick={navController.navigate(Screenss.Home.route)})
+                HomeScreenn(onClick={navController.navigate(Screenss.SignIn.route)})
 
             }
         }
@@ -81,14 +83,5 @@ fun SignUp(navController: NavHostController, loginViewModel: LoginViewModel = vi
 
 
 
-/*
-@Preview
-@Composable
-fun DefaultPreview()
-{
 
-
-
-
-}*/
 

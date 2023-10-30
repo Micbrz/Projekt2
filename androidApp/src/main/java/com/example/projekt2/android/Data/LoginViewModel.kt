@@ -1,99 +1,76 @@
 package com.example.projekt2.android.Data
+
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.projekt2.android.navigation.PostOfficeAppRouter
+import com.example.projekt2.android.navigation.Screenss
 import com.example.projekt2.android.rules.Validator
 import com.google.firebase.auth.FirebaseAuth
 
-class LoginViewModel : ViewModel(){
+class LoginViewModel : ViewModel() {
     private val TAG = LoginViewModel::class.simpleName
-    var registrationUIState = mutableStateOf(RegistrationUIState())
+    var loginUIState = mutableStateOf(LoginUIState())
     var allValidationsPassed = mutableStateOf(false)
-    fun onEvent(event:UIEvent){
-        validateDataWidthRules()
-        when(event){
-            is UIEvent.EmailChanged -> {
-                registrationUIState.value = registrationUIState.value.copy(
-                    email = event.email
-                )
+    var loginInProgress = mutableStateOf(false)
+    fun onEvent(event:LoginUIEvent){
+    when(event){
+        is LoginUIEvent.EmailChanged ->{
+            loginUIState.value = loginUIState.value.copy(
+                email = event.email
+            )
 
-                printState()
-            }
-            is UIEvent.PasswordChanged -> {
-                registrationUIState.value = registrationUIState.value.copy(
-                    password = event.password
-                )
 
-                printState()
-            }
-            is UIEvent.RepeatPasswordChanged -> {
-                registrationUIState.value = registrationUIState.value.copy(
-                    repeatpassword = event.repeatpassword
-                )
 
-                printState()
-            }
-            is UIEvent.RegisterButtonClicked -> {
-                signUp()
-            }
+        }
+        is LoginUIEvent.PasswordChanged ->{
+            loginUIState.value = loginUIState.value.copy(
+                password = event.password
+            )
+
+
+
+        }
+        is LoginUIEvent.LoginButtonClicked ->{
+            login()
+
         }
     }
-
-    private fun signUp() {
-        Log.d(TAG, "Inside_signUp")
-        printState()
-
         validateDataWidthRules()
+}
 
-        createUserInFirebase(
-            email = registrationUIState.value.email,
-            password = registrationUIState.value.password
-
-        )
-    }
 
     private fun validateDataWidthRules() {
         val emailResult = Validator.validateEmail(
-            email = registrationUIState.value.email
+            email = loginUIState.value.email
         )
         val passwordResult = Validator.validatePassword(
-            password = registrationUIState.value.password
+            password = loginUIState.value.password
         )
-        val repeatpasswordResult = Validator.validateRepeatPassword(
-            repeatpassword = registrationUIState.value.repeatpassword
-        )
-        Log.d(TAG,"Inside_validateDataWithRules")
-        Log.d(TAG,"emailResult= $emailResult")
-        Log.d(TAG,"passwordResult= $passwordResult")
-        Log.d(TAG,"repeatpasswordResult= $repeatpasswordResult")
-        registrationUIState.value = registrationUIState.value.copy(
+        loginUIState.value = loginUIState.value.copy(
             emailError = emailResult.status,
-            passwordError = passwordResult.status,
-            repeatpasswordError = repeatpasswordResult.status
+            passwordError = passwordResult.status
         )
-        if(emailResult.status && passwordResult.status && repeatpasswordResult.status){
-            allValidationsPassed.value = true
-        }else{
-            allValidationsPassed.value = false
-        }
-    }
+        allValidationsPassed.value = emailResult.status && passwordResult.status
+}
 
-    private fun printState(){
-        Log.d(TAG, "Inside_printState")
-        Log.d(TAG, registrationUIState.value.toString())
-    }
-    private fun createUserInFirebase(email:String, password:String){
+    private fun login() {
+        val email = loginUIState.value.email
+        val password = loginUIState.value.password
         FirebaseAuth
             .getInstance()
-            .createUserWithEmailAndPassword(email,password)
+            .signInWithEmailAndPassword(email,password)
             .addOnCompleteListener{
-                Log.d(TAG,"Inside_OnCompleteListener")
-                Log.d(TAG,"isSuccessful = ${it.isSuccessful}")
+                Log.d(TAG,"Inside_login_Success")
+                Log.d(TAG,"${it.isSuccessful}")
+                if(it.isSuccessful){
+                    PostOfficeAppRouter.navigateTo(Screenss.Home)
+
+                }
             }
             .addOnFailureListener{
-                Log.d(TAG,"Inside_OnFailureListener")
-                Log.d(TAG,"Exception = ${it.message}")
-                Log.d(TAG,"Exception = ${it.localizedMessage}")
+                Log.d(TAG,"Inside_login_failure")
+                Log.d(TAG,"${it.localizedMessage}")
             }
     }
 }

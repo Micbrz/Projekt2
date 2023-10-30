@@ -2,7 +2,12 @@
     <string name="RegisterText">Zarejestruj Się</string>
     <string name="email">E-mail</string>
     <string name="password">Hasło</string>
-    <string name="repeatpassword">Powtorz Haslo</string>
+    <string name="Name">Imie</string>
+    <string name="Surname">Nazwisko</string>>
     <string name="register">Rejestracja</string>>
     <string name="gotologin">Przejdź do Logowania</string>>
+    <string name="logIn">Zaloguj się</string>>
+    <string name="Login">Logowanie</string>>
+    <string name="logout">Wyloguj</string>>
+
 </resources>

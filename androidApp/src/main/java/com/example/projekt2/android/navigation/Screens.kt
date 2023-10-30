@@ -9,7 +9,7 @@ sealed class Screenss(val route: String){
     object Home: Screenss("Home_screen")
     object SignIn: Screenss("Registration_screen")
 }
-/*
+
 object PostOfficeAppRouter {
 
     var currentScreen: MutableState<Screenss> = mutableStateOf(Screenss.SignUp)
@@ -19,4 +19,4 @@ object PostOfficeAppRouter {
     }
 
 
-}*/
+}

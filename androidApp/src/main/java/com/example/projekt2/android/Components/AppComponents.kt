@@ -210,8 +210,22 @@ fun HomeScreenn(onTextSelected: (String) -> Unit,navController: NavHostControlle
 */
 @Composable
 fun HomeScreenn(/*onTextSelected: (String) -> Unit*/ onClick: (String) -> Unit ){
-    val initialText = "Przejdź do "
+    val initialText = "Masz już konto? Przejdź do "
     val logintext= "Logowania"
+
+    val annotatedString = buildAnnotatedString{
+        append(initialText)
+        withStyle(style = SpanStyle(color = Primary)){
+            pushStringAnnotation(tag = logintext, annotation = logintext)
+            append(logintext)}}
+    ClickableText(modifier = Modifier.fillMaxWidth(),
+        style = TextStyle(textAlign = TextAlign.Center),
+        text=annotatedString , onClick={onClick("Home")})
+}
+@Composable
+fun SignInScreenn(/*onTextSelected: (String) -> Unit*/ onClick: (String) -> Unit ){
+    val initialText = "Nie masz jeszcz konta? Przejdź do "
+    val logintext= "Rejestracji"
 
     val annotatedString = buildAnnotatedString{
         append(initialText)

@@ -3,7 +3,7 @@ package com.example.projekt2.android.Data
 
 
 
-data class RegistrationUIState(
+data class SignUpUIState(
     var email : String = "",
     var password : String = "",
     var repeatpassword: String = "",
