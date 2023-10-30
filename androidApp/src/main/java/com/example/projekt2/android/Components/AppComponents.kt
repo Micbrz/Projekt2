@@ -43,6 +43,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.projekt2.android.Primary
 import com.example.projekt2.android.Secondary
+import com.example.projekt2.android.TextColor
 import com.example.projekt2.android.navigation.Screenss
 
 
@@ -70,7 +71,8 @@ fun EmailText(labelValue: String,painterResource: Painter,
         modifier = Modifier.fillMaxWidth(),maxLines = 1,
 
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Primary
+            focusedBorderColor = Primary,
+
         ),
         shape = RoundedCornerShape(20),
         value = email.value,
@@ -78,7 +80,9 @@ fun EmailText(labelValue: String,painterResource: Painter,
                                 email.value = it
                             }
                         onTextSelected(it)},
-        label = {Text(text = labelValue)},
+        label = {Text(text = labelValue,modifier = Modifier.fillMaxWidth(),
+            color = TextColor)
+            },
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
         },
@@ -104,7 +108,8 @@ fun PasswordText(labelValue : String,onTextSelected: (String) -> Unit,
                             password.value = it
                         }
                         onTextSelected(it)},
-        label = {Text(text = labelValue)},
+        label = {Text(text = labelValue,modifier = Modifier.fillMaxWidth(),
+            color = TextColor)},
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
         },
