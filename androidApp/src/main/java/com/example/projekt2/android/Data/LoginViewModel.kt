@@ -3,8 +3,9 @@ package com.example.projekt2.android.Data
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavHostController
 import com.example.projekt2.android.navigation.PostOfficeAppRouter
-import com.example.projekt2.android.navigation.Screenss
+import com.example.projekt2.android.navigation.Screens
 import com.example.projekt2.android.rules.Validator
 import com.google.firebase.auth.FirebaseAuth
 
@@ -19,21 +20,14 @@ class LoginViewModel : ViewModel() {
             loginUIState.value = loginUIState.value.copy(
                 email = event.email
             )
-
-
-
         }
         is LoginUIEvent.PasswordChanged ->{
             loginUIState.value = loginUIState.value.copy(
                 password = event.password
             )
-
-
-
         }
         is LoginUIEvent.LoginButtonClicked ->{
             login()
-
         }
     }
         validateDataWidthRules()
@@ -55,6 +49,7 @@ class LoginViewModel : ViewModel() {
 }
 
     private fun login() {
+        loginInProgress.value = true
         val email = loginUIState.value.email
         val password = loginUIState.value.password
         FirebaseAuth
@@ -64,13 +59,15 @@ class LoginViewModel : ViewModel() {
                 Log.d(TAG,"Inside_login_Success")
                 Log.d(TAG,"${it.isSuccessful}")
                 if(it.isSuccessful){
-                    PostOfficeAppRouter.navigateTo(Screenss.Home)
+                    loginInProgress.value = false
+                    PostOfficeAppRouter.navigateTo(Screens.HomeScreen)
 
                 }
             }
             .addOnFailureListener{
                 Log.d(TAG,"Inside_login_failure")
                 Log.d(TAG,"${it.localizedMessage}")
+                loginInProgress.value = false
             }
     }
 }

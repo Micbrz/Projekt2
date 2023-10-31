@@ -2,6 +2,8 @@ package com.example.projekt2.android.Data
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.projekt2.android.navigation.PostOfficeAppRouter
+import com.example.projekt2.android.navigation.Screens
 import com.example.projekt2.android.rules.Validator
 import com.google.firebase.auth.FirebaseAuth
 
@@ -104,10 +106,12 @@ class SignUpViewModel : ViewModel(){
         firebaseAuth.signOut()
         val authStateListener = FirebaseAuth.AuthStateListener {
             if (it.currentUser == null) {
-                Log.d(TAG,"Inside sign outsuccess")
+                Log.d(TAG,"Inside signout success")
+                PostOfficeAppRouter.navigateTo(Screens.SignIn)
             }
             else{
                 Log.d(TAG,"Inside sign out is not complete")
+                PostOfficeAppRouter.navigateTo(Screens.SignIn)
             }
         }
         firebaseAuth.addAuthStateListener(authStateListener)

@@ -54,7 +54,7 @@ import com.example.projekt2.android.Primary
 import com.example.projekt2.android.R
 import com.example.projekt2.android.Secondary
 import com.example.projekt2.android.TextColor
-import com.example.projekt2.android.navigation.Screenss
+import com.example.projekt2.android.navigation.Screens
 
 
 @Composable
@@ -114,6 +114,7 @@ fun PasswordText(labelValue : String,onTextSelected: (String) -> Unit,
             focusedBorderColor = Primary
 
         ),
+
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         shape = RoundedCornerShape(20),
         value = password.value,
@@ -249,18 +250,29 @@ fun HomeScreenn(onTextSelected: (String) -> Unit,navController: NavHostControlle
 
 */
 @Composable
-fun HomeScreenn(/*onTextSelected: (String) -> Unit*/ onClick: (String) -> Unit ){
+fun HomeScreenn(onTextSelected: (String) -> Unit){
     val initialText = "Masz już konto? Przejdź do "
     val logintext= "Logowania"
 
     val annotatedString = buildAnnotatedString{
-        append(initialText)
+        withStyle(style=SpanStyle(color = TextColor)){append(initialText)}
         withStyle(style = SpanStyle(color = Primary)){
             pushStringAnnotation(tag = logintext, annotation = logintext)
-            append(logintext)}}
-    ClickableText(modifier = Modifier.fillMaxWidth(),
-        style = TextStyle(textAlign = TextAlign.Center),
-        text=annotatedString , onClick={onClick("Home")})
+            append(logintext)}
+
+        }
+    ClickableText(
+        text = annotatedString,
+        onClick = {offset ->
+
+        annotatedString.getStringAnnotations(offset, offset)
+            .firstOrNull()?.also { span ->
+                Log.d("ClickableTextComponent", "{${span.item}}")
+
+                if (span.item == logintext) {
+                    onTextSelected(span.item)
+                }
+            }})
 }
 @Composable
 fun SignInScreenn(/*onTextSelected: (String) -> Unit*/ onClick: (String) -> Unit ){
@@ -272,7 +284,8 @@ fun SignInScreenn(/*onTextSelected: (String) -> Unit*/ onClick: (String) -> Unit
         withStyle(style = SpanStyle(color = Primary)){
             pushStringAnnotation(tag = logintext, annotation = logintext)
             append(logintext)}}
-    ClickableText(text=annotatedString , onClick={onClick("Home")})
+    ClickableText(modifier=Modifier.fillMaxWidth(),style=TextStyle(textAlign = TextAlign.Center),
+        text=annotatedString , onClick={onClick("Home")})
 }
 /*
 

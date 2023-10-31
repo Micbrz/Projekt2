@@ -4,17 +4,18 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 
-sealed class Screenss(val route: String){
-    object SignUp: Screenss("login_screen")
-    object Home: Screenss("Home_screen")
-    object SignIn: Screenss("Registration_screen")
+sealed class Screens{
+    object SignUp: Screens()
+    object HomeScreen: Screens()
+    object SignIn: Screens()
 }
+
 
 object PostOfficeAppRouter {
 
-    var currentScreen: MutableState<Screenss> = mutableStateOf(Screenss.SignUp)
+    var currentScreen: MutableState<Screens> = mutableStateOf(Screens.SignUp)
 
-    fun navigateTo(destination : Screenss){
+    fun navigateTo(destination : Screens){
         currentScreen.value = destination
     }
 

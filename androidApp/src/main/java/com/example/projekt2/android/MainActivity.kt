@@ -17,7 +17,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.projekt2.android.Components.HomeScreenn
 import com.example.projekt2.android.navigation.NavGraph
-import com.example.projekt2.android.navigation.Screenss
+
+import com.example.projekt2.android.navigation.Screens
 
 import com.example.projekt2.android.screens.HomeScreen
 import com.example.projekt2.android.screens.SignIn
@@ -36,44 +37,19 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
 
                 ) {
-
-                    val navController = rememberNavController()
-                    NavHost(
-                        navController = navController,
-                        startDestination = Screenss.SignIn.route)
-                    {
-                        composable(route = Screenss.SignUp.route){
-                            SignUp(navController)
-                        }
-                        composable(route = Screenss.Home.route){
-                            HomeScreen(navController)
-                        }
-                        composable(route = Screenss.SignIn.route){
-                            SignIn(navController)
-                        }
-                    }
+                    NavGraph()
 
 
                 }
             }
     }
-    /*
-    fun createUserInFirebase(email:String, password:String){
 
-        FirebaseAuth.getInstance()
-            .createUserWithEmailAndPassword(email,password)
-            .addOnCompleteListener{
-                Log.d(TAG,"isSuccessful = ${it.isSuccessful}")
-            }.addOnFailureListener{
-                Log.d(TAG,"isFailure = ${it.message}")
-            }
-    }*/
 
 }
 @Preview
 @Composable
 fun first(){
-    MainActivity()
+    NavGraph()
 }
 
 

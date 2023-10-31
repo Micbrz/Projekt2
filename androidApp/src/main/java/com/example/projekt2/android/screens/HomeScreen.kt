@@ -10,17 +10,18 @@ import com.example.projekt2.android.Components.RegistrationButton
 
 import com.example.projekt2.android.Data.SignUpViewModel
 import com.example.projekt2.android.R
-import com.example.projekt2.android.navigation.Screenss
+import com.example.projekt2.android.navigation.PostOfficeAppRouter
+import com.example.projekt2.android.navigation.Screens
 
 @Composable
-fun HomeScreen(navController: NavHostController,loginViewModel: SignUpViewModel = viewModel()) {
+fun HomeScreen(loginViewModel: SignUpViewModel = viewModel()) {
     Column{
         Text(text = "Home screenNNNNNNNNNNNNNNNNNNNNNNNNn")
         RegistrationButton(
             value = stringResource(id= R.string.logout),
             onButtonClicked = {
                 loginViewModel.logout()
-                navController.navigate(Screenss.SignIn.route)
+                PostOfficeAppRouter.navigateTo(Screens.SignIn)
 
             },
             isEnabled = true

@@ -27,12 +27,13 @@ import com.example.projekt2.android.Data.SignUpUIEvent
 import com.example.projekt2.android.Data.SignUpViewModel
 
 import com.example.projekt2.android.R
+import com.example.projekt2.android.navigation.PostOfficeAppRouter
 //import com.example.projekt2.android.navigation.PostOfficeAppRouter
-import com.example.projekt2.android.navigation.Screenss
+import com.example.projekt2.android.navigation.Screens
 
 
 @Composable
-fun SignUp(navController: NavHostController, SignUpViewModel: SignUpViewModel = viewModel()) {
+fun SignUp(SignUpViewModel: SignUpViewModel = viewModel()) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center) {
         Surface(
@@ -40,7 +41,7 @@ fun SignUp(navController: NavHostController, SignUpViewModel: SignUpViewModel = 
             modifier = Modifier.fillMaxSize()
         ) {
             Column() {
-                Spacer(modifier = Modifier.height(2.dp))
+                Spacer(modifier = Modifier.height(10.dp))
                 NormalTextComponent(loginText = stringResource(id = R.string.RegisterText))
                 EmailText(
                     labelValue = stringResource(id=R.string.email),
@@ -49,6 +50,7 @@ fun SignUp(navController: NavHostController, SignUpViewModel: SignUpViewModel = 
                     onTextSelected={
                         SignUpViewModel.onEvent(SignUpUIEvent.EmailChanged(it))
                     } )
+                Spacer(modifier=Modifier.height(5.dp))
                 PasswordText(
                     labelValue = stringResource(id=R.string.password),
                     painterResource = painterResource(id = R.drawable.ic_lock),
@@ -57,6 +59,7 @@ fun SignUp(navController: NavHostController, SignUpViewModel: SignUpViewModel = 
                         SignUpViewModel.onEvent(SignUpUIEvent.PasswordChanged(it))
                     }
                 )
+                Spacer(modifier=Modifier.height(5.dp))
                 RepeatPassword(
                     labelValue = stringResource(id=R.string.Name),
                     painterResource = painterResource(id=R.drawable.ic_lock),
@@ -72,7 +75,7 @@ fun SignUp(navController: NavHostController, SignUpViewModel: SignUpViewModel = 
                     },
                     isEnabled = SignUpViewModel.allValidationsPassed.value
                 )
-                HomeScreenn(onClick={navController.navigate(Screenss.SignIn.route)})
+                HomeScreenn(onTextSelected={ PostOfficeAppRouter.navigateTo(Screens.SignIn)})
 
             }
         }

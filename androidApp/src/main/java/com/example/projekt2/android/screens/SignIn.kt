@@ -26,10 +26,11 @@ import com.example.projekt2.android.Data.SignUpUIEvent
 import com.example.projekt2.android.Data.SignUpViewModel
 
 import com.example.projekt2.android.R
-import com.example.projekt2.android.navigation.Screenss
+import com.example.projekt2.android.navigation.PostOfficeAppRouter
+import com.example.projekt2.android.navigation.Screens
 
 @Composable
-fun SignIn(navController: NavHostController,loginViewModel: LoginViewModel = viewModel()) {
+fun SignIn(loginViewModel: LoginViewModel = viewModel()) {
     Surface(
         modifier = Modifier.fillMaxWidth()
     )
@@ -53,12 +54,12 @@ fun SignIn(navController: NavHostController,loginViewModel: LoginViewModel = vie
             RegistrationButton(
                 value = stringResource(id=R.string.Login),
                 onButtonClicked = {
-
+                    loginViewModel.onEvent(LoginUIEvent.LoginButtonClicked)
                 },
                 isEnabled = loginViewModel.allValidationsPassed.value
 
             )
-            SignInScreenn(onClick = {navController.navigate(Screenss.SignUp.route)})
+            SignInScreenn(onClick = { PostOfficeAppRouter.navigateTo(Screens.SignUp)})
         }
     }
 
