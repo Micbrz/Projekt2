@@ -15,7 +15,7 @@ import com.example.projekt2.android.navigation.Screenss
 @Composable
 fun HomeScreen(navController: NavHostController,loginViewModel: SignUpViewModel = viewModel()) {
     Column{
-        Text(text = "Home screen")
+        Text(text = "Home screenNNNNNNNNNNNNNNNNNNNNNNNNn")
         RegistrationButton(
             value = stringResource(id= R.string.logout),
             onButtonClicked = {
