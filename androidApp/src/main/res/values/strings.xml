@@ -8,6 +8,8 @@
     <string name="gotologin">Przejdź do Logowania</string>>
     <string name="logIn">Zaloguj się</string>>
     <string name="Login">Logowanie</string>>
-    <string name="logout">Wyloguj</string>>
+    <string name="logout">Wyloguj</string>
+    <string name="Hidepassword">Hide Password</string>
+    <string name="Showpassword">Show Password</string>
 
 </resources>

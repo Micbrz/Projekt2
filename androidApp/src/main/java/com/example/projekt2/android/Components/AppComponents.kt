@@ -14,10 +14,15 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -30,11 +35,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -42,6 +51,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.projekt2.android.Primary
+import com.example.projekt2.android.R
 import com.example.projekt2.android.Secondary
 import com.example.projekt2.android.TextColor
 import com.example.projekt2.android.navigation.Screenss
@@ -95,12 +105,16 @@ fun PasswordText(labelValue : String,onTextSelected: (String) -> Unit,
                  painterResource: Painter,errorStatus:Boolean = false){
     val password = remember{mutableStateOf("")}
     val maxchar = 15
+    val passwordVisible = remember{
+        mutableStateOf(false)
+    }
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),maxLines = 1,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Primary
 
         ),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         shape = RoundedCornerShape(20),
         value = password.value,
         onValueChange = {
@@ -113,8 +127,29 @@ fun PasswordText(labelValue : String,onTextSelected: (String) -> Unit,
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
         },
+        trailingIcon = {
+            val iconImage = if(passwordVisible.value){
+                Icons.Filled.Visibility
+            }else{
+                Icons.Filled.VisibilityOff
+            }
+            var description = if(passwordVisible.value){
+                stringResource(id = R.string.Hidepassword)
+            }else{
+                stringResource(id = R.string.Showpassword)
+            }
+            IconButton(onClick = {passwordVisible.value = !passwordVisible.value}){
+                Icon(imageVector = iconImage, contentDescription = description)
+            }
+        },
+        visualTransformation = if(passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+
+
         isError = !errorStatus
+
+
     )
+
 }
 @Composable
 fun RepeatPassword(labelValue : String,painterResource:Painter,
