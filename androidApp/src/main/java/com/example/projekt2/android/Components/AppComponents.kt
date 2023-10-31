@@ -80,10 +80,10 @@ fun EmailText(labelValue: String,painterResource: Painter,
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),maxLines = 1,
 
-        colors = TextFieldDefaults.outlinedTextFieldColors(
+        /*colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Primary,
 
-        ),
+        ),*/
         shape = RoundedCornerShape(20),
         value = email.value,
         onValueChange = { if(it.length <= maxchar){
