@@ -1,5 +1,7 @@
 package com.example.projekt2.android.screens
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +34,7 @@ import com.example.projekt2.android.navigation.Screens
 
 @Composable
 fun SignIn(loginViewModel: LoginViewModel = viewModel()) {
+    val context = LocalContext.current
     Surface(
         modifier = Modifier.fillMaxWidth()
     )
@@ -55,6 +59,7 @@ fun SignIn(loginViewModel: LoginViewModel = viewModel()) {
                 value = stringResource(id=R.string.Login),
                 onButtonClicked = {
                     loginViewModel.onEvent(LoginUIEvent.LoginButtonClicked)
+                    if(loginViewModel.loginInProgress.value){Toast.makeText(context,"Logowanie udane!",Toast.LENGTH_SHORT)}
                 },
                 isEnabled = loginViewModel.allValidationsPassed.value
 

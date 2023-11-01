@@ -1,6 +1,8 @@
 package com.example.projekt2.android.Data
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
@@ -8,6 +10,7 @@ import com.example.projekt2.android.navigation.PostOfficeAppRouter
 import com.example.projekt2.android.navigation.Screens
 import com.example.projekt2.android.rules.Validator
 import com.google.firebase.auth.FirebaseAuth
+
 
 class LoginViewModel : ViewModel() {
     private val TAG = LoginViewModel::class.simpleName

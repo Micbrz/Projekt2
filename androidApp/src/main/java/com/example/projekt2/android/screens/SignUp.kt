@@ -69,6 +69,7 @@ fun SignUp(SignUpViewModel: SignUpViewModel = viewModel()) {
                     })
 
                 RegistrationButton(
+
                     value = stringResource(id=R.string.register),
                     onButtonClicked = {
                         SignUpViewModel.onEvent(SignUpUIEvent.RegisterButtonClicked)

@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -180,8 +181,10 @@ fun RepeatPassword(labelValue : String,painterResource:Painter,
 
 }
 
+
 @Composable
 fun RegistrationButton(value : String, onButtonClicked: () -> Unit, isEnabled: Boolean = false){
+
     Button(onClick = { onButtonClicked.invoke()},
         modifier = Modifier.fillMaxWidth()
             .heightIn(20.dp),
