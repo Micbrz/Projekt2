@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.projekt2.android.screens.HomeScreen
+import com.example.projekt2.android.screens.Profile
 import com.example.projekt2.android.screens.SignIn
 import com.example.projekt2.android.screens.SignUp
 
@@ -31,6 +32,9 @@ fun NavGraph (){
                 }
                 is Screens.HomeScreen ->{
                     HomeScreen()
+                }
+                is Screens.Profile ->{
+                    Profile()
                 }
             }
         }

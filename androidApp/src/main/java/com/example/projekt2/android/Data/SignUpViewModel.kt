@@ -1,6 +1,8 @@
 package com.example.projekt2.android.Data
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.example.projekt2.android.navigation.PostOfficeAppRouter
 import com.example.projekt2.android.navigation.Screens
@@ -93,6 +95,7 @@ class SignUpViewModel : ViewModel(){
             .addOnCompleteListener{
                 Log.d(TAG,"Inside_OnCompleteListener")
                 Log.d(TAG,"isSuccessful = ${it.isSuccessful}")
+                //here add toast
             }
             .addOnFailureListener{
                 Log.d(TAG,"Inside_OnFailureListener")

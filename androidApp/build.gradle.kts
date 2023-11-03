@@ -67,4 +67,5 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("io.coil-kt:coil-compose:2.5.0")
 }

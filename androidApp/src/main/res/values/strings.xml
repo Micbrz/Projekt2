@@ -11,5 +11,6 @@
     <string name="logout">Wyloguj</string>
     <string name="Hidepassword">Hide Password</string>
     <string name="Showpassword">Show Password</string>
+    <string name="Profile">Profil</string>>
 
 </resources>

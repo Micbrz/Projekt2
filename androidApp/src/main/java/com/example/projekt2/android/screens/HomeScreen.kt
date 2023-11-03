@@ -26,6 +26,12 @@ fun HomeScreen(loginViewModel: SignUpViewModel = viewModel()) {
             },
             isEnabled = true
             )
+        RegistrationButton(
+            value = stringResource(id=R.string.Profile),
+            onButtonClicked={
+                PostOfficeAppRouter.navigateTo(Screens.Profile)
+            }
+        )
 
     }
 }
