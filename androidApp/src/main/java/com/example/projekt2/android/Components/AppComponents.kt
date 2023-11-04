@@ -153,17 +153,21 @@ fun PasswordText(labelValue : String,onTextSelected: (String) -> Unit,
     )
 
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RepeatPassword(labelValue : String,painterResource:Painter,
                    onTextSelected:(String) -> Unit,errorStatus:Boolean = false){
-    val maxChar = 15
-    val repeatPassword = remember{mutableStateOf("")}
-    OutlinedTextField(
-        value = repeatPassword.value,
+    val passwordVisible = remember{
+        mutableStateOf(false)
+    }
+    val maxchar = 15
+    val repeatpassword = remember{mutableStateOf("")}
+        /*OutlinedTextField(
+        value = repeatpassword.value,
         onValueChange = {
             if(it.length <= maxChar)
             {
-                repeatPassword.value = it
+                repeatpassword.value = it
             }
             onTextSelected(it)},
 
@@ -174,6 +178,48 @@ fun RepeatPassword(labelValue : String,painterResource:Painter,
             Icon(painter = painterResource, contentDescription = "")
         },
         isError = !errorStatus
+    )*/
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),maxLines = 1,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = Primary
+
+        ),
+
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        shape = RoundedCornerShape(20),
+        value = repeatpassword.value,
+        onValueChange = {
+            if(it.length <= maxchar){
+                repeatpassword.value = it
+            }
+            onTextSelected(it)},
+        label = {Text(text = labelValue,modifier = Modifier.fillMaxWidth(),
+            color = TextColor)},
+        leadingIcon = {
+            Icon(painter = painterResource, contentDescription = "")
+        },
+        trailingIcon = {
+            val iconImage = if(passwordVisible.value){
+                Icons.Filled.Visibility
+            }else{
+                Icons.Filled.VisibilityOff
+            }
+            var description = if(passwordVisible.value){
+                stringResource(id = R.string.Hidepassword)
+            }else{
+                stringResource(id = R.string.Showpassword)
+            }
+            IconButton(onClick = {passwordVisible.value = !passwordVisible.value}){
+                Icon(imageVector = iconImage, contentDescription = description)
+            }
+        },
+        visualTransformation = if(passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+
+
+        isError = !errorStatus
+
+
     )
 
 

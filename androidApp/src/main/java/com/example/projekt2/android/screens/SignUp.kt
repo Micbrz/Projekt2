@@ -61,7 +61,7 @@ fun SignUp(SignUpViewModel: SignUpViewModel = viewModel()) {
                 )
                 Spacer(modifier=Modifier.height(5.dp))
                 RepeatPassword(
-                    labelValue = stringResource(id=R.string.Name),
+                    labelValue = stringResource(id=R.string.repeatpassword),
                     painterResource = painterResource(id=R.drawable.ic_lock),
                     errorStatus = SignUpViewModel.SignUpUIState.value.repeatpasswordError,
                     onTextSelected={

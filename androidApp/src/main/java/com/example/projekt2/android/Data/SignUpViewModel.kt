@@ -66,6 +66,7 @@ class SignUpViewModel : ViewModel(){
             password = SignUpUIState.value.password
         )
         val repeatpasswordResult = Validator.validateRepeatPassword(
+            password = SignUpUIState.value.password,
             repeatpassword = SignUpUIState.value.repeatpassword
         )
         Log.d(TAG,"Inside_validateDataWithRules")
@@ -77,11 +78,25 @@ class SignUpViewModel : ViewModel(){
             passwordError = passwordResult.status,
             repeatpasswordError = repeatpasswordResult.status
         )
-        if(emailResult.status && passwordResult.status && repeatpasswordResult.status){
+        if(emailResult.status && passwordResult.status &&  repeatpasswordResult.status){
             allValidationsPassed.value = true
         }else{
             allValidationsPassed.value = false
         }
+        if (!passwordResult.status) {
+            // Ustaw błąd dla hasła
+            SignUpUIState.value = SignUpUIState.value.copy(
+                passwordError = passwordResult.status
+            )
+        }
+
+        if (!repeatpasswordResult.status) {
+            // Ustaw błąd dla powtórzonego hasła
+            SignUpUIState.value = SignUpUIState.value.copy(
+                repeatpasswordError = repeatpasswordResult.status
+            )
+        }
+
     }
 
     private fun printState(){

@@ -12,9 +12,15 @@ object Validator {
             (!password.isNullOrEmpty() && password.length >= 5 )
         )
     }
-    fun validateRepeatPassword(repeatpassword:String) :ValidationResult{
+    fun validateRepeatPassword(password:String,repeatpassword:String) :ValidationResult{
+        val isMatching = repeatpassword == password
+        println("Password: $password")
+        println("Repeat Password: $repeatpassword")
+        println("isMatching: $isMatching")
+
+
         return ValidationResult(
-            (!repeatpassword.isNullOrEmpty() && repeatpassword.length >= 5 )
+            (!repeatpassword.isNullOrEmpty() && repeatpassword.length >= 5 && (repeatpassword == password))
         )
     }
 }

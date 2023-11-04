@@ -30,7 +30,8 @@ fun HomeScreen(loginViewModel: SignUpViewModel = viewModel()) {
             value = stringResource(id=R.string.Profile),
             onButtonClicked={
                 PostOfficeAppRouter.navigateTo(Screens.Profile)
-            }
+            },
+            isEnabled = true
         )
 
     }

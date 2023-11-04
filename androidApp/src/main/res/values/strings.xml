@@ -2,6 +2,7 @@
     <string name="RegisterText">Zarejestruj Się</string>
     <string name="email">E-mail</string>
     <string name="password">Hasło</string>
+    <string name="repeatpassword">Powtorz Hasło</string>
     <string name="Name">Imie</string>
     <string name="Surname">Nazwisko</string>>
     <string name="register">Rejestracja</string>>
