@@ -83,19 +83,7 @@ class SignUpViewModel : ViewModel(){
         }else{
             allValidationsPassed.value = false
         }
-        if (!passwordResult.status) {
-            // Ustaw błąd dla hasła
-            SignUpUIState.value = SignUpUIState.value.copy(
-                passwordError = passwordResult.status
-            )
-        }
 
-        if (!repeatpasswordResult.status) {
-            // Ustaw błąd dla powtórzonego hasła
-            SignUpUIState.value = SignUpUIState.value.copy(
-                repeatpasswordError = repeatpasswordResult.status
-            )
-        }
 
     }
 

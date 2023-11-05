@@ -34,6 +34,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Green
+import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -42,6 +44,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -51,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.example.projekt2.android.BgColor
 import com.example.projekt2.android.Primary
 import com.example.projekt2.android.R
 import com.example.projekt2.android.Secondary
@@ -79,21 +83,22 @@ fun EmailText(labelValue: String,painterResource: Painter,
     val email = remember { mutableStateOf("") }
     val maxchar = 25
     OutlinedTextField(
-        modifier = Modifier.fillMaxWidth(),maxLines = 1,
-
-        /*colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Primary,
-
-        ),*/
+        modifier = Modifier.fillMaxWidth(),
+        maxLines = 1,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = Green,
+            unfocusedBorderColor = Green
+        ),
         shape = RoundedCornerShape(20),
         value = email.value,
         onValueChange = { if(it.length <= maxchar){
                                 email.value = it
                             }
                         onTextSelected(it)},
-        label = {Text(text = labelValue,modifier = Modifier.fillMaxWidth(),
+        label = {Text(text = labelValue,
             color = TextColor)
             },
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
         },
@@ -116,7 +121,7 @@ fun PasswordText(labelValue : String,onTextSelected: (String) -> Unit,
 
         ),
 
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password,imeAction = ImeAction.Done),
         shape = RoundedCornerShape(20),
         value = password.value,
         onValueChange = {
@@ -124,7 +129,7 @@ fun PasswordText(labelValue : String,onTextSelected: (String) -> Unit,
                             password.value = it
                         }
                         onTextSelected(it)},
-        label = {Text(text = labelValue,modifier = Modifier.fillMaxWidth(),
+        label = {Text(text = labelValue,
             color = TextColor)},
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
@@ -162,31 +167,17 @@ fun RepeatPassword(labelValue : String,painterResource:Painter,
     }
     val maxchar = 15
     val repeatpassword = remember{mutableStateOf("")}
-        /*OutlinedTextField(
-        value = repeatpassword.value,
-        onValueChange = {
-            if(it.length <= maxChar)
-            {
-                repeatpassword.value = it
-            }
-            onTextSelected(it)},
-
-        shape = RoundedCornerShape(20),
-        label = {Text(text = labelValue) },
-        modifier = Modifier.fillMaxWidth(),maxLines = 1,
-        leadingIcon = {
-            Icon(painter = painterResource, contentDescription = "")
-        },
-        isError = !errorStatus
-    )*/
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),maxLines = 1,
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Primary
+            focusedBorderColor = Primary,
+            focusedLabelColor = Primary,
+            cursorColor = Primary,
+            containerColor = BgColor
 
         ),
 
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password,imeAction = ImeAction.Done),
         shape = RoundedCornerShape(20),
         value = repeatpassword.value,
         onValueChange = {
@@ -194,7 +185,7 @@ fun RepeatPassword(labelValue : String,painterResource:Painter,
                 repeatpassword.value = it
             }
             onTextSelected(it)},
-        label = {Text(text = labelValue,modifier = Modifier.fillMaxWidth(),
+        label = {Text(text = labelValue,
             color = TextColor)},
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
@@ -240,7 +231,9 @@ fun RegistrationButton(value : String, onButtonClicked: () -> Unit, isEnabled: B
 
     {
         Box(
-            modifier = Modifier.fillMaxWidth().background(
+            modifier = Modifier.fillMaxWidth()
+                .heightIn(40.dp)
+                .background(
                 brush = Brush.horizontalGradient(listOf(Secondary, Primary)),
                 shape = RoundedCornerShape(20.dp)
             ),
@@ -252,52 +245,7 @@ fun RegistrationButton(value : String, onButtonClicked: () -> Unit, isEnabled: B
         }
     }
 }
-/*
-@Composable
-fun HomeScreenn(onTextSelected: (String) -> Unit,navController: NavHostController) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp),
-            horizontalArrangement = Arrangement.Center
-        ){
-            Text(
-                text = "Home Screen",
 
-                fontWeight = FontWeight.Bold
-            )
-        }
-        Row( modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp),
-            horizontalArrangement = Arrangement.Center
-        ){
-            Button(
-                shape = MaterialTheme.shapes.medium,
-
-                modifier = Modifier.padding(5.dp),
-                onClick = {{navController.navigate(Screenss.Registration.route)}
-                }
-            ) {
-                Text(
-                    text = "Go to Details",
-                    modifier = Modifier.padding(5.dp),
-
-
-                )
-            }
-        }
-    }
-}
-
-
-*/
 @Composable
 fun HomeScreenn(onTextSelected: (String) -> Unit){
     val initialText = "Masz już konto? Przejdź do "

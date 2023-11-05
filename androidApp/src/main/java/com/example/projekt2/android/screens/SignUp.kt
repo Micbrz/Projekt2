@@ -1,10 +1,12 @@
 package com.example.projekt2.android.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
@@ -37,12 +39,17 @@ fun SignUp(SignUpViewModel: SignUpViewModel = viewModel()) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center) {
         Surface(
-            color = Color.White,
-            modifier = Modifier.fillMaxSize()
+
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .padding(28.dp)
+
         ) {
             Column() {
-                Spacer(modifier = Modifier.height(10.dp))
+
                 NormalTextComponent(loginText = stringResource(id = R.string.RegisterText))
+                Spacer(modifier=Modifier.height(20.dp))
                 EmailText(
                     labelValue = stringResource(id=R.string.email),
                     painterResource = painterResource(id = R.drawable.profile),
@@ -50,7 +57,7 @@ fun SignUp(SignUpViewModel: SignUpViewModel = viewModel()) {
                     onTextSelected={
                         SignUpViewModel.onEvent(SignUpUIEvent.EmailChanged(it))
                     } )
-                Spacer(modifier=Modifier.height(5.dp))
+                Spacer(modifier=Modifier.height(10.dp))
                 PasswordText(
                     labelValue = stringResource(id=R.string.password),
                     painterResource = painterResource(id = R.drawable.ic_lock),
@@ -59,7 +66,7 @@ fun SignUp(SignUpViewModel: SignUpViewModel = viewModel()) {
                         SignUpViewModel.onEvent(SignUpUIEvent.PasswordChanged(it))
                     }
                 )
-                Spacer(modifier=Modifier.height(5.dp))
+                Spacer(modifier=Modifier.height(10.dp))
                 RepeatPassword(
                     labelValue = stringResource(id=R.string.repeatpassword),
                     painterResource = painterResource(id=R.drawable.ic_lock),
@@ -67,7 +74,7 @@ fun SignUp(SignUpViewModel: SignUpViewModel = viewModel()) {
                     onTextSelected={
                         SignUpViewModel.onEvent(SignUpUIEvent.RepeatPasswordChanged(it))
                     })
-
+                Spacer(modifier=Modifier.height(10.dp))
                 RegistrationButton(
 
                     value = stringResource(id=R.string.register),
@@ -76,6 +83,7 @@ fun SignUp(SignUpViewModel: SignUpViewModel = viewModel()) {
                     },
                     isEnabled = SignUpViewModel.allValidationsPassed.value
                 )
+                Spacer(modifier=Modifier.height(10.dp))
                 HomeScreenn(onTextSelected={ PostOfficeAppRouter.navigateTo(Screens.SignIn)})
 
             }
