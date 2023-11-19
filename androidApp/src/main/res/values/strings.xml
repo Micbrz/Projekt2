@@ -13,5 +13,6 @@
     <string name="Hidepassword">Hide Password</string>
     <string name="Showpassword">Show Password</string>
     <string name="Profile">Profil</string>>
+    <string name="Chat">chat</string>>
 
 </resources>

@@ -1,28 +1,29 @@
 package com.example.projekt2.android.navigation
 
+import android.content.Context
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.compose.ui.platform.LocalContext
+import com.example.projekt2.android.Data.FirebaseDatabaseManager
+import com.example.projekt2.android.screens.ChatApplication
 import com.example.projekt2.android.screens.HomeScreen
 import com.example.projekt2.android.screens.Profile
 import com.example.projekt2.android.screens.SignIn
 import com.example.projekt2.android.screens.SignUp
+import com.google.firebase.database.DatabaseReference
 
 
 @Composable
-fun NavGraph (){
+fun NavGraph (context: Context, databaseReference: DatabaseReference,firebaseDatabaseManager: FirebaseDatabaseManager){
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color.White
     ){
-        Crossfade(targetState = PostOfficeAppRouter.currentScreen){currentState->
+        Crossfade(targetState = PostOfficeAppRouter.currentScreen, label = ""){ currentState->
             when(currentState.value){
                 is Screens.SignUp ->{
                     SignUp()
@@ -34,7 +35,11 @@ fun NavGraph (){
                     HomeScreen()
                 }
                 is Screens.Profile ->{
-                    Profile()
+
+                    Profile(context, databaseReference,firebaseDatabaseManager)
+                }
+                is Screens.ChatApplication ->{
+                    ChatApplication()
                 }
             }
         }

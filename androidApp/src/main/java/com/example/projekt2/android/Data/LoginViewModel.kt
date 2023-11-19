@@ -1,15 +1,18 @@
 package com.example.projekt2.android.Data
 
-import android.content.Context
+import android.content.ContentValues.TAG
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.unit.Constraints
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavHostController
 import com.example.projekt2.android.navigation.PostOfficeAppRouter
 import com.example.projekt2.android.navigation.Screens
 import com.example.projekt2.android.rules.Validator
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 class LoginViewModel : ViewModel() {
@@ -62,9 +65,11 @@ class LoginViewModel : ViewModel() {
                 Log.d(TAG,"Inside_login_Success")
                 Log.d(TAG,"${it.isSuccessful}")
                 if(it.isSuccessful){
+                    val user = FirebaseAuth.getInstance().currentUser
+                    val uid = user?.uid
+                    Log.d(TAG,"User UID: $uid")
                     loginInProgress.value = false
                     PostOfficeAppRouter.navigateTo(Screens.HomeScreen)
-
                 }
             }
             .addOnFailureListener{

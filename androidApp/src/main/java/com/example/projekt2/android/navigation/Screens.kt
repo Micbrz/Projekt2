@@ -9,6 +9,7 @@ sealed class Screens{
     object HomeScreen: Screens()
     object SignIn: Screens()
     object Profile: Screens()
+    object ChatApplication: Screens()
 }
 
 

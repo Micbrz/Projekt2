@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -312,6 +313,16 @@ fun SignInScreenn(/*onTextSelected: (String) -> Unit*/ onClick: (String) -> Unit
 
     )
 }*/
+@Composable
+fun BackButton(onClick: () -> Unit){
+    IconButton(onClick = onClick){
+        Icon(
+            imageVector = Icons.Default.ArrowBack,
+            contentDescription = "Back",
+            tint = Color.Black
+        )
+    }
+}
 
 
 

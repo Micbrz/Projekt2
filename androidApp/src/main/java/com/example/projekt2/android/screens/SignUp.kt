@@ -46,7 +46,7 @@ fun SignUp(SignUpViewModel: SignUpViewModel = viewModel()) {
                 .padding(28.dp)
 
         ) {
-            Column() {
+            Column(modifier = Modifier.fillMaxSize()) {
 
                 NormalTextComponent(loginText = stringResource(id = R.string.RegisterText))
                 Spacer(modifier=Modifier.height(20.dp))

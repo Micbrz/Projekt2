@@ -42,7 +42,8 @@ android {
 }
 
 dependencies {
-    implementation("androidx.navigation:navigation-compose:2.7.4")
+
+    implementation("androidx.navigation:navigation-compose:2.7.5")
     //noinspection GradleCompatible
     implementation("com.android.support:appcompat-v7:28.0.0")
     implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
@@ -54,18 +55,23 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.androidx.activity.compose)
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.database.ktx)
+    implementation("com.google.firebase:firebase-database:20.3.0")
+    implementation("com.google.firebase:firebase-firestore:24.9.1")
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-    implementation("androidx.compose.ui:ui-test-manifest:1.5.3")
-    implementation("androidx.compose.material:material-icons-extended:1.5.3")
-    implementation(platform("com.google.firebase:firebase-bom:32.0.0"))
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("com.google.firebase:firebase-auth:22.2.0")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.5.4")
+    implementation("androidx.compose.material:material-icons-extended:1.5.4")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation("com.google.firebase:firebase-database-ktx")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
+    implementation("com.google.android.material:material:1.4.0")
 }
