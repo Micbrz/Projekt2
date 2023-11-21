@@ -26,12 +26,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 fun addMessage(messageText: String, recipientId: String,senderId: String, senderUsername: String){
 
 
-    val message = ChatMessage(
+    var message = ChatMessage(
         senderId = senderId,
         text = messageText,
         recipientId = recipientId,
         timestamp = System.currentTimeMillis())
-    val messageCollection = FirebaseFirestore.getInstance().collection("messages")
+    var messageCollection = FirebaseFirestore.getInstance().collection("messages")
     messageCollection.add(message)
         .addOnSuccessListener{documentReference ->
 
@@ -44,13 +44,13 @@ fun getMessagesForUser(
     recipientId: String,
     onMessagesReady: (List<ChatMessage>) -> Unit,
     onError: (Exception) -> Unit) {
-    val messagesRef = FirebaseFirestore.getInstance().collection("messages")
+    var messagesRef = FirebaseFirestore.getInstance().collection("messages")
 
     // Get messages for the specific recipient
     messagesRef.whereEqualTo("recipientId", recipientId)
         .get()
         .addOnSuccessListener { documents ->
-            val messagesList = mutableListOf<ChatMessage>()
+            var messagesList = mutableListOf<ChatMessage>()
             for (document in documents) {
                 val message = document.toObject(ChatMessage::class.java)
                 messagesList.add(message)
@@ -70,7 +70,7 @@ fun getMessagesForUserV1(
     messagesRef.whereEqualTo("recipientId", recipientId)
         .get()
         .addOnSuccessListener { documents ->
-            val messagesList = mutableListOf<ChatMessage>()
+            var messagesList = mutableListOf<ChatMessage>()
             for (document in documents) {
                 val message = document.toObject(ChatMessage::class.java)
                 messagesList.add(message)
@@ -91,7 +91,7 @@ fun getMessagesForUserV2(
     messagesRef.whereEqualTo("senderId", recipientId)
         .get()
         .addOnSuccessListener { documents ->
-            val messagesList = mutableListOf<ChatMessage>()
+            var messagesList = mutableListOf<ChatMessage>()
             for (document in documents) {
                 val message = document.toObject(ChatMessage::class.java)
                 messagesList.add(message)
@@ -130,12 +130,12 @@ fun ChatApplication() {
         selectedUser?.let { user ->
             val recipientId = user.uid
             getMessagesForUser(recipientId,
-                onMessagesReady = { messages ->
-                    // Tutaj otrzymujesz listę wiadomości dla wybranego użytkownika
-                    messages.forEach { message ->
-                        // Wyświetlenie lub przetworzenie pojedynczej wiadomości
-                        Log.d(ContentValues.TAG, "Wiadomość od ${message.senderId}: ${message.text}")
-                    }
+                onMessagesReady = { receiveMessages ->
+
+                    messages = messages + receiveMessages
+
+
+
                 },
                 onError = { error ->
                     Log.e(ContentValues.TAG, "Error fetching messages: ${error.message}")
