@@ -1,4 +1,4 @@
-package com.example.projekt2.android.Data
+package com.example.projekt2.android.Data.Login
 
 
 data class LoginUIState(

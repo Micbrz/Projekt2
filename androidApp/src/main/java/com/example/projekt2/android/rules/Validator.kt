@@ -3,7 +3,6 @@ package com.example.projekt2.android.rules
 object Validator {
 
     fun validateEmail(email:String) :ValidationResult{
-        println("email: $email")
         return ValidationResult(
             (!email.isNullOrEmpty() && email.length >= 10)
         )
@@ -13,17 +12,14 @@ object Validator {
             (!password.isNullOrEmpty() && password.length >= 5 )
         )
     }
-    fun validateRepeatPassword(password:String,repeatpassword:String) :ValidationResult{
-        val isMatching = repeatpassword == password
-
-        println("Password: $password")
-        println("Repeat Password: $repeatpassword")
-        println("isMatching: $isMatching")
-
-
-
+    fun validateName(name:String) :ValidationResult{
         return ValidationResult(
-            (!repeatpassword.isNullOrEmpty() && repeatpassword.length >= 5 && (repeatpassword == password) )
+            (!name.isNullOrEmpty())
+        )
+    }
+    fun validateLastName(lastname:String) :ValidationResult{
+        return ValidationResult(
+            (!lastname.isNullOrEmpty())
         )
     }
 }

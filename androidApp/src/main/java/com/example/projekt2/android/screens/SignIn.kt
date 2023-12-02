@@ -1,33 +1,26 @@
 package com.example.projekt2.android.screens
 
-import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import com.example.projekt2.android.Components.EmailText
 import com.example.projekt2.android.Components.NormalTextComponent
 import com.example.projekt2.android.Components.PasswordText
 import com.example.projekt2.android.Components.RegistrationButton
 import com.example.projekt2.android.Components.SignInScreenn
-import com.example.projekt2.android.Data.LoginUIEvent
-import com.example.projekt2.android.Data.LoginViewModel
-import com.example.projekt2.android.Data.SignUpUIEvent
-import com.example.projekt2.android.Data.SignUpViewModel
+import com.example.projekt2.android.Data.Login.LoginUIEvent
+import com.example.projekt2.android.Data.Login.LoginViewModel
 
 import com.example.projekt2.android.R
 import com.example.projekt2.android.navigation.PostOfficeAppRouter
@@ -38,7 +31,7 @@ fun SignIn(loginViewModel: LoginViewModel = viewModel()) {
     val context = LocalContext.current
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = Color.Black
+        color = Color.White
     )
     {
         Column(){

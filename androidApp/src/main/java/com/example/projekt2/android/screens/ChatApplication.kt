@@ -4,12 +4,25 @@ package com.example.projekt2.android.screens
 import android.content.ContentValues
 import android.util.Log
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -117,7 +130,7 @@ fun ChatApplication() {
             onUsersListReady = { users ->
                 usersList = users
                 usersList.forEach{user ->
-                    Log.d("UserList","User ID ${user.uid}")
+                    Log.d("UserList ${user.Name}","User ID ${user.uid}")
                 }
             },
             onError = { error ->
@@ -129,6 +142,7 @@ fun ChatApplication() {
     LaunchedEffect(selectedUser) {
         selectedUser?.let { user ->
             val recipientId = user.uid
+            val name = user.Name
             getMessagesForUser(recipientId,
                 onMessagesReady = { receiveMessages ->
 
@@ -171,7 +185,7 @@ fun ChatApplication() {
                 modifier = Modifier.weight(1f)
             ) {
                 items(messages) { message ->
-                    Text(text = "Wiadomość od ${message.senderId}: ${message.text}")
+                    DisplayMessages(message,usersList)
                 }
             }
             Text("Koniec wiadomosci")
@@ -217,21 +231,19 @@ fun ChatApplication() {
 @Composable
 fun UserItem(user: UsersObj, onUserSelected: (UsersObj) -> Unit) {
     Text(
-        text = "Name: ${user.Name} LastName: ${user.LastName}",
+        text = "Imie: ${user.Name} Nazwisko: ${user.LastName}",
         modifier = Modifier.clickable {
-            Log.d("UserItem", "Recipient ID: ${user.uid}")
+            Log.d("UserItem", "Recipient Name: ${user.Name} Recipient ID: ${user.uid}")
             onUserSelected(user) }
     )
 }
 @Composable
-fun DisplayReceivedMessages(messages: List<ChatMessage>) {
-    LazyColumn(
+fun DisplayMessages(message: ChatMessage,users: List<UsersObj>) {
+    val senderUser = users.find { it.uid == message.senderId }
+    val senderName = senderUser?.Name ?: "Unknown User"
+    Text(text = "Wiadomość od $senderName: ${message.text}")
 
-    ) {
-        items(messages) { message ->
-            Text(text = "Wiadomość od ${message.senderId}: ${message.text}")
-        }
-    }
+
 }
 
 

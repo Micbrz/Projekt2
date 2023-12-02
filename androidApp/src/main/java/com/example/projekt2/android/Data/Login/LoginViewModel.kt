@@ -1,18 +1,12 @@
-package com.example.projekt2.android.Data
+package com.example.projekt2.android.Data.Login
 
-import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.unit.Constraints
 import androidx.lifecycle.ViewModel
 import com.example.projekt2.android.navigation.PostOfficeAppRouter
 import com.example.projekt2.android.navigation.Screens
 import com.example.projekt2.android.rules.Validator
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 
 class LoginViewModel : ViewModel() {
@@ -20,7 +14,7 @@ class LoginViewModel : ViewModel() {
     var loginUIState = mutableStateOf(LoginUIState())
     var allValidationsPassed = mutableStateOf(false)
     var loginInProgress = mutableStateOf(false)
-    fun onEvent(event:LoginUIEvent){
+    fun onEvent(event: LoginUIEvent){
     when(event){
         is LoginUIEvent.EmailChanged ->{
             loginUIState.value = loginUIState.value.copy(

@@ -2,7 +2,6 @@ package com.example.projekt2.android.navigation
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 
 sealed class Screens{
     object SignUp: Screens()
@@ -10,6 +9,7 @@ sealed class Screens{
     object SignIn: Screens()
     object Profile: Screens()
     object ChatApplication: Screens()
+    object AddPost: Screens()
 }
 
 

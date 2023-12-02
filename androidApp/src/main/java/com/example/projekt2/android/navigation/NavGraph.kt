@@ -7,8 +7,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import com.example.projekt2.android.Data.FirebaseDatabaseManager
+import com.example.projekt2.android.screens.AddPost
 import com.example.projekt2.android.screens.ChatApplication
 import com.example.projekt2.android.screens.HomeScreen
 import com.example.projekt2.android.screens.Profile
@@ -40,6 +40,9 @@ fun NavGraph (context: Context, databaseReference: DatabaseReference,firebaseDat
                 }
                 is Screens.ChatApplication ->{
                     ChatApplication()
+                }
+                is Screens.AddPost ->{
+                    AddPost()
                 }
             }
         }
