@@ -17,7 +17,7 @@ class FirebaseDatabaseManager {
         val user = auth.currentUser
         val uid = user?.uid
         val usersRef: DatabaseReference = database.getReference("users")
-
+        val imageRef = usersRef.child("users")
         if(uid != null){
             val userData = mapOf(
                 "uid" to employeeObj.uid,

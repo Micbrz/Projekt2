@@ -57,7 +57,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database.ktx)
     implementation("com.google.firebase:firebase-database:20.3.0")
-    implementation("com.google.firebase:firebase-firestore:24.9.1")
+    implementation(libs.firebase.firestore)
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -74,4 +74,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
     implementation("com.google.android.material:material:1.4.0")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+    implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.firebase:firebase-appcheck:17.1.1")
+    implementation("com.google.firebase:firebase-appcheck-safetynet:16.1.2")
 }

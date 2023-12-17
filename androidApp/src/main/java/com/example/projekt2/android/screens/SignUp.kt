@@ -44,7 +44,7 @@ fun SignUp(SignUpViewModel: SignUpViewModel = viewModel()) {
             Column(modifier = Modifier.fillMaxSize()) {
 
                 NormalTextComponent(loginText = stringResource(id = R.string.RegisterText))
-                Spacer(modifier=Modifier.height(20.dp))
+                Spacer(modifier=Modifier.height(10.dp))
                 EmailText(
                     labelValue = stringResource(id=R.string.email),
                     painterResource = painterResource(id = R.drawable.message),

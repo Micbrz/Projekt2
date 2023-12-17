@@ -10,10 +10,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
+
 class SignUpViewModel : ViewModel(){
     private val TAG = SignUpViewModel::class.simpleName
     var SignUpUIState = mutableStateOf(SignUpUIState())
     var allValidationsPassed = mutableStateOf(false)
+
     fun onEvent(event: SignUpUIEvent){
         validateDataWidthRules()
         when(event){
@@ -63,7 +65,9 @@ class SignUpViewModel : ViewModel(){
             email = SignUpUIState.value.email,
             password = SignUpUIState.value.password,
             name = SignUpUIState.value.name,
-            lastname = SignUpUIState.value.lastname
+            lastname = SignUpUIState.value.lastname,
+            bio = SignUpUIState.value.bio
+
         )
     }
 
@@ -105,11 +109,17 @@ class SignUpViewModel : ViewModel(){
         Log.d(TAG, "Inside_printState")
         Log.d(TAG, SignUpUIState.value.toString())
     }
-    private fun createUserInFirebase(email:String, password:String, name:String, lastname:String){
+    private fun createUserInFirebase(
+        email:String, password:String, name:String, lastname:String,
+        bio:String
+
+
+    ){
         FirebaseAuth
             .getInstance()
             .createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener{
+                PostOfficeAppRouter.navigateTo(Screens.SignIn)
                 Log.d(TAG,"Inside_OnCompleteListener")
                 Log.d(TAG,"isSuccessful = ${it.isSuccessful}")
                 val database: FirebaseDatabase = FirebaseDatabase.getInstance("https://clonefbandroidios-default-rtdb.europe-west1.firebasedatabase.app")
@@ -121,14 +131,18 @@ class SignUpViewModel : ViewModel(){
                     uid = uid ?: "",
                     Name = name,
                     LastName = lastname,
-                    Bio = "", // Tutaj możesz dodać domyślne wartości dla Bio i Picture
+                    Bio = bio, // Tutaj możesz dodać domyślne wartości dla Bio i Picture
                     Picture = ""
                 )
+
                 fun saveUserData(userObj: UsersObj) {
                     val usersRef: DatabaseReference = database.getReference("users")
 
                     // Zapisz informacje o użytkowniku do bazy danych Firebase
                     usersRef.child(userObj.uid).setValue(userObj)
+                        .addOnSuccessListener{
+
+                        }
                 }
 
                 // Zapisz podstawowe informacje użytkownika do bazy danych Firebase
@@ -136,14 +150,13 @@ class SignUpViewModel : ViewModel(){
 
 
 
-                PostOfficeAppRouter.navigateTo(Screens.SignIn)
-
 
             }
             .addOnFailureListener{
                 Log.d(TAG,"Inside_OnFailureListener")
                 Log.d(TAG,"Exception = ${it.message}")
                 Log.d(TAG,"Exception = ${it.localizedMessage}")
+                Log.d(TAG,"Nie udalo się zarejestować")
             }
     }
     fun logout() {

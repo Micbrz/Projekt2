@@ -52,19 +52,22 @@ class LoginViewModel : ViewModel() {
         loginInProgress.value = true
         val email = loginUIState.value.email
         val password = loginUIState.value.password
+        val user = FirebaseAuth.getInstance().currentUser
+        val uid = user?.uid
+
         FirebaseAuth
             .getInstance()
             .signInWithEmailAndPassword(email,password)
             .addOnCompleteListener{
                 Log.d(TAG,"Inside_login_Success")
                 Log.d(TAG,"${it.isSuccessful}")
-                if(it.isSuccessful){
-                    val user = FirebaseAuth.getInstance().currentUser
-                    val uid = user?.uid
-                    Log.d(TAG,"User UID: $uid")
+                if(it.isSuccessful) {
+
+                    Log.d(TAG, "User UID: $uid")
                     loginInProgress.value = false
                     PostOfficeAppRouter.navigateTo(Screens.HomeScreen)
                 }
+
             }
             .addOnFailureListener{
                 Log.d(TAG,"Inside_login_failure")
