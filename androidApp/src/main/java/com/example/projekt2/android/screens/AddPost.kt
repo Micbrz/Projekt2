@@ -45,17 +45,15 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
-import com.example.projekt2.android.Components.BackButton
 import com.example.projekt2.android.Data.ViewModel.AddThreadViewModel
 import com.example.projekt2.android.R
-import com.example.projekt2.android.navigation.PostOfficeAppRouter
-import com.example.projekt2.android.navigation.Screens
 import com.example.projekt2.android.utils.SharedPref
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun AddPost(){
+fun AddPost(navHostController: NavHostController){
     val context = LocalContext.current
     val threadViewModel : AddThreadViewModel = viewModel()
     val isPosted by threadViewModel.isPosted.observeAsState(false)
@@ -84,33 +82,31 @@ fun AddPost(){
         if(isPosted!!){
             thread = ""
             imageUri = null
-            Toast.makeText(context,"Thread added", Toast.LENGTH_SHORT).show()
-
-
-
+            Toast.makeText(context,"Post dodany", Toast.LENGTH_SHORT).show()
         }
     }
     ConstraintLayout(modifier = Modifier.fillMaxSize().padding(16.dp)){
-        BackButton(onClick = { PostOfficeAppRouter.navigateTo(Screens.HomeScreen)})
+        /*BackButton(onClick = { /*PostOfficeAppRouter.navigateTo(Screens.HomeScreen)*/
+            navHostController.navigate(Routes.HomeScreen.routes)})*/
         val (crossPic, text, logo, Name, editText, attachMedia,
             replyText, button,imageBox) = createRefs()
-        Image(painter = painterResource(id = R.drawable.baseline_close_24),contentDescription ="close",
+        /*Image(painter = painterResource(id = R.drawable.baseline_close_24),contentDescription ="close",
             modifier = Modifier.constrainAs(crossPic){
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)
             }
                 .clickable{
 
-                })
+                })*/
         Text(
-            text = "dodaj Post", style = TextStyle(
+            text = "Dodaj Post", style = TextStyle(
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 24.sp
             ),modifier = Modifier.constrainAs(text){
                 top.linkTo(crossPic.top)
                 start.linkTo(crossPic.end)
                 bottom.linkTo(crossPic.bottom)
-            }
+            }.padding(start = 130.dp)
         )
 
         Image(painter = rememberAsyncImagePainter(model = SharedPref.getImage(context)),contentDescription ="close",
@@ -142,7 +138,7 @@ fun AddPost(){
 
         if(imageUri == null){
             Image(painter =painterResource(id = R.drawable.baseline_attachment_24),
-            contentDescription = "close",
+            contentDescription = "attachment",
                 modifier = Modifier.constrainAs(attachMedia){
                     top.linkTo(editText.bottom)
                     start.linkTo(editText.start)
@@ -190,7 +186,7 @@ fun AddPost(){
             bottom.linkTo(parent.bottom)
         }){
             Text(
-                text = "Post", style = TextStyle(
+                text = "Dodaj", style = TextStyle(
                     fontSize = 20.sp
                 )
             )

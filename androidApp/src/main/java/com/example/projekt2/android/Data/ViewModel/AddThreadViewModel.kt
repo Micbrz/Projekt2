@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.projekt2.android.Data.ThreadModel
+import com.example.projekt2.android.Data.Models.ThreadModel
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -27,15 +27,22 @@ class AddThreadViewModel : ViewModel() {
     ){
         val uploadTask = imageRef.putFile(imageUri)
         uploadTask.addOnSuccessListener{
-            saveData(thread,userId,it.toString())
+
+            imageRef.downloadUrl.addOnSuccessListener{
+                saveData(thread,userId,it.toString())
+            }
+
         }
     }
     fun saveData(
         thread: String,
         userId: String,
         image:String,
+
     ){
-        val threadData = ThreadModel(thread, image,userId,System.currentTimeMillis().toString())
+        val threadData = ThreadModel(thread, image,userId,System.currentTimeMillis().toString()
+
+        )
         userRef.child(userRef.push().key!!).setValue(threadData)
             .addOnSuccessListener{
                 _isPosted.postValue(true)
@@ -43,4 +50,6 @@ class AddThreadViewModel : ViewModel() {
                 _isPosted.postValue(false)
             }
     }
+
+
 }

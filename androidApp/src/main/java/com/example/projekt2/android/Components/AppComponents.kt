@@ -6,8 +6,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,6 +19,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -68,6 +71,34 @@ fun NormalTextComponent(loginText: String) {
     )
 }
 
+@Composable
+fun DividerTextComponent(){
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ){
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            thickness = 1.dp
+        )
+        Text(
+            modifier = Modifier.padding(8.dp),
+            fontSize = 18.sp,
+            color = TextColor,
+            text = stringResource(R.string.or)
+        )
+
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            thickness = 1.dp
+
+        )
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -251,7 +282,7 @@ fun HomeScreenn(onTextSelected: (String) -> Unit){
             append(logintext)}
 
         }
-    ClickableText(
+    ClickableText(modifier=Modifier.fillMaxWidth(),style=TextStyle(textAlign = TextAlign.Center),
         text = annotatedString,
         onClick = {offset ->
 
@@ -265,9 +296,22 @@ fun HomeScreenn(onTextSelected: (String) -> Unit){
             }})
 }
 @Composable
-fun SignInScreenn(/*onTextSelected: (String) -> Unit*/ onClick: (String) -> Unit ){
-    val initialText = "Nie masz jeszcz konta? Przejdź do "
+fun SignInScreenn( onClick: (String) -> Unit ){
+    val initialText = "Nie masz jeszcze konta? Przejdź do "
     val logintext= "Rejestracji"
+
+    val annotatedString = buildAnnotatedString{
+        append(initialText)
+        withStyle(style = SpanStyle(color = Primary)){
+            pushStringAnnotation(tag = logintext, annotation = logintext)
+            append(logintext)}}
+    ClickableText(modifier=Modifier.fillMaxWidth(),style=TextStyle(textAlign = TextAlign.Center),
+        text=annotatedString , onClick={onClick("Home")})
+}
+@Composable
+fun forgot(onClick: (String) -> Unit){
+    val initialText = "Zapomniałeś hasła? "
+    val logintext= "Zresetuj je"
 
     val annotatedString = buildAnnotatedString{
         append(initialText)

@@ -2,18 +2,25 @@ package com.example.projekt2.android.Data.Login
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.projekt2.android.navigation.PostOfficeAppRouter
-import com.example.projekt2.android.navigation.Screens
 import com.example.projekt2.android.rules.Validator
 import com.google.firebase.auth.FirebaseAuth
+sealed class LoginResult {
+    object SUCCESS : LoginResult()
+    object FAILURE : LoginResult()
+    // Możesz dodać dodatkowe stany logowania, jeśli są potrzebne
+}
 
-
-class LoginViewModel : ViewModel() {
+class LoginViewModel  : ViewModel() {
     private val TAG = LoginViewModel::class.simpleName
     var loginUIState = mutableStateOf(LoginUIState())
     var allValidationsPassed = mutableStateOf(false)
     var loginInProgress = mutableStateOf(false)
+    val loginResult: LiveData<LoginResult> get() = _loginResult
+    private val _loginResult = MutableLiveData<LoginResult>()
+
     fun onEvent(event: LoginUIEvent){
     when(event){
         is LoginUIEvent.EmailChanged ->{
@@ -31,7 +38,7 @@ class LoginViewModel : ViewModel() {
         }
     }
         validateDataWidthRules()
-}
+    }
 
 
     private fun validateDataWidthRules() {
@@ -62,16 +69,16 @@ class LoginViewModel : ViewModel() {
                 Log.d(TAG,"Inside_login_Success")
                 Log.d(TAG,"${it.isSuccessful}")
                 if(it.isSuccessful) {
-
+                    _loginResult.postValue(LoginResult.SUCCESS)
                     Log.d(TAG, "User UID: $uid")
-                    loginInProgress.value = false
-                    PostOfficeAppRouter.navigateTo(Screens.HomeScreen)
+
                 }
 
+
             }
-            .addOnFailureListener{
-                Log.d(TAG,"Inside_login_failure")
-                Log.d(TAG,"${it.localizedMessage}")
+            .addOnFailureListener{exception ->
+                Log.e(TAG, "Błąd logowania: ${exception.localizedMessage}")
+                _loginResult.postValue(LoginResult.FAILURE)
                 loginInProgress.value = false
             }
     }

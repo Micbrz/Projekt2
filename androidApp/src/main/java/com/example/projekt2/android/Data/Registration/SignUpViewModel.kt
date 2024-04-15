@@ -2,9 +2,8 @@ package com.example.projekt2.android.Data.Registration
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.projekt2.android.Data.UsersObj
-import com.example.projekt2.android.navigation.PostOfficeAppRouter
-import com.example.projekt2.android.navigation.Screens
+import com.example.projekt2.android.Data.Models.UserModel
+
 import com.example.projekt2.android.rules.Validator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -119,7 +118,7 @@ class SignUpViewModel : ViewModel(){
             .getInstance()
             .createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener{
-                PostOfficeAppRouter.navigateTo(Screens.SignIn)
+                //PostOfficeAppRouter.navigateTo(Screens.SignIn)
                 Log.d(TAG,"Inside_OnCompleteListener")
                 Log.d(TAG,"isSuccessful = ${it.isSuccessful}")
                 val database: FirebaseDatabase = FirebaseDatabase.getInstance("https://clonefbandroidios-default-rtdb.europe-west1.firebasedatabase.app")
@@ -127,15 +126,15 @@ class SignUpViewModel : ViewModel(){
                 val uid = user?.uid
 
                 // Utwórz obiekt UsersObj z podstawowymi informacjami
-                val newUser = UsersObj(
+                val newUser = UserModel(
                     uid = uid ?: "",
-                    Name = name,
-                    LastName = lastname,
-                    Bio = bio, // Tutaj możesz dodać domyślne wartości dla Bio i Picture
-                    Picture = ""
+                    name = name,
+                    lastname = lastname,
+                    bio = bio, // Tutaj możesz dodać domyślne wartości dla Bio i Picture
+                    image = ""
                 )
 
-                fun saveUserData(userObj: UsersObj) {
+                fun saveUserData(userObj: UserModel) {
                     val usersRef: DatabaseReference = database.getReference("users")
 
                     // Zapisz informacje o użytkowniku do bazy danych Firebase
@@ -166,11 +165,11 @@ class SignUpViewModel : ViewModel(){
         val authStateListener = FirebaseAuth.AuthStateListener {
             if (it.currentUser == null) {
                 Log.d(TAG,"Inside signout success")
-                PostOfficeAppRouter.navigateTo(Screens.SignIn)
+                //PostOfficeAppRouter.navigateTo(Screens.SignIn)
             }
             else{
                 Log.d(TAG,"Inside sign out is not complete")
-                PostOfficeAppRouter.navigateTo(Screens.SignIn)
+                //PostOfficeAppRouter.navigateTo(Screens.SignIn)
             }
         }
         firebaseAuth.addAuthStateListener(authStateListener)

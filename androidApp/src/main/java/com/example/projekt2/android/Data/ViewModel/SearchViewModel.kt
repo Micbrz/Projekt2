@@ -10,38 +10,28 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class HomeViewModel : ViewModel() {
+class SearchViewModel : ViewModel() {
     private val db = FirebaseDatabase.getInstance("https://clonefbandroidios-default-rtdb.europe-west1.firebasedatabase.app")
-    val thread = db.getReference("threads")
+    val users = db.getReference("users")
 
-    private var _threadAndUsers = MutableLiveData<List<Pair<ThreadModel, UserModel>>>()
-    val threadAndUsers: LiveData<List<Pair<ThreadModel, UserModel>>> = _threadAndUsers
+    private var _users = MutableLiveData<List<UserModel>>()
+    val userList: LiveData<List<UserModel>> = _users
 
     init{
-        fetchThreadsAndUsers{
-            _threadAndUsers.value = it
+        fetchUsers{
+            _users.value = it
         }
     }
 
-    private fun fetchThreadsAndUsers(onResult: (List<Pair<ThreadModel, UserModel>>) -> Unit){
-        thread.addValueEventListener(object: ValueEventListener {
+    private fun fetchUsers(onResult: (List<UserModel>) -> Unit){
+        users.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot){
-                val result = mutableListOf<Pair<ThreadModel, UserModel>>()
+                val result = mutableListOf<UserModel>()
                 for (threadSnapshot in snapshot.children){
-                    val thread = threadSnapshot.getValue(ThreadModel::class.java)
-                    thread.let{
-                        fetchUserFromThread(it!!){
-                            user ->
-                            result.add(0,it to user)
-
-                            if (result.size == snapshot.childrenCount.toInt()){
-                                onResult(result)
-                            }
-                        }
-                    }
-
+                    val thread = threadSnapshot.getValue(UserModel::class.java)
+                    result.add(thread!!)
                 }
-
+                onResult(result)
             }
             override fun onCancelled(error: DatabaseError){
 

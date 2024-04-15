@@ -33,17 +33,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.projekt2.android.Components.BackButton
-import com.example.projekt2.android.Data.FirebaseDatabaseManager
-import com.example.projekt2.android.Data.UserModel
-import com.example.projekt2.android.Data.UsersObj
+import com.example.projekt2.android.Data.Models.UserModel
+import com.example.projekt2.android.Data.UserData.FirebaseDatabaseManager
 import com.example.projekt2.android.R
-import com.example.projekt2.android.navigation.PostOfficeAppRouter
-import com.example.projekt2.android.navigation.Screens
+import com.example.projekt2.android.navigation.Routes
 import com.example.projekt2.android.utils.SharedPref
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -54,13 +52,18 @@ import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Profile(context: Context, databaseReference: DatabaseReference,firebaseDatabaseManager: FirebaseDatabaseManager) {
+fun Profile(navHostController: NavHostController) {
+
+
+
     /*val notification = rememberSaveable{mutableStateOf("")}
     if(notification.value.isNotEmpty()){
         Toast.makeText(LocalContext.current, notification.value, Toast.LENGTH_LONG).show()
         notification.value=""
     }*/
-
+    val database = FirebaseDatabase.getInstance("https://clonefbandroidios-default-rtdb.europe-west1.firebasedatabase.app")
+    val databaseReference = database.getReference("EmployeeInfo");
+    val firebaseDatabaseManager = FirebaseDatabaseManager()
 
     var name by remember { mutableStateOf("") }
     var lastname by remember { mutableStateOf("") }
@@ -76,11 +79,13 @@ fun Profile(context: Context, databaseReference: DatabaseReference,firebaseDatab
             }
         }
     var imageUri by remember { mutableStateOf<Uri?>(null)}
+
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         imageUri = uri
     }
+
     val permissionToRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         Manifest.permission.READ_MEDIA_IMAGES
     } else Manifest.permission.READ_EXTERNAL_STORAGE
@@ -97,7 +102,9 @@ fun Profile(context: Context, databaseReference: DatabaseReference,firebaseDatab
             Text(text = "Zapisz",
                 modifier = Modifier.clickable{notification.value = "Zapisane"})
         }*/
-        BackButton(onClick = { PostOfficeAppRouter.navigateTo(Screens.HomeScreen) })
+        BackButton(onClick = { //PostOfficeAppRouter.navigateTo(Screens.HomeScreen)
+            navHostController.navigate(Routes.HomeScreen.routes)
+        })
 
         //zdjecie
 
@@ -110,9 +117,6 @@ fun Profile(context: Context, databaseReference: DatabaseReference,firebaseDatab
                 imageUrl.value
             }
         )*/
-
-
-
 
         Column(
             modifier = Modifier.fillMaxWidth().padding(8.dp),
@@ -141,7 +145,7 @@ fun Profile(context: Context, databaseReference: DatabaseReference,firebaseDatab
                 contentScale = ContentScale.Crop
             )
         }
-        Text(text = "Zmień zdjęcie profilowe")
+
 
     //zdjecie
     Row(
@@ -190,27 +194,7 @@ fun Profile(context: Context, databaseReference: DatabaseReference,firebaseDatab
             modifier = Modifier.height(160.dp)
         )
     }
-        LaunchedEffect(Unit) {
-            // Pobierz dane użytkownika z Firebase
-            firebaseDatabaseManager.readUserData(
-                onDataRead = { userData ->
-                    var imageUrl = imageUri?.toString()
-                    // Obsłuż odczytane dane użytkownika
-                    name = userData.Name
-                    lastname = userData.LastName
-                    bio = userData.Bio
-                    val pictureUrl = userData.Picture // Zakładając, że userData.Picture zawiera adres URL jako String
-                    imageUri = if (!pictureUrl.isNullOrEmpty()) Uri.parse(pictureUrl) else null
-                    imageUrl = userData.Picture
-                    Log.d(TAG,"Imie : ${name}")
-                    Log.d(TAG,"Nazwisko : ${lastname}")
-                },
-                onError = { error ->
-                    Log.w(TAG, "Failed to read user data.", error.toException())
-                    Toast.makeText(context, "Failed to read user data", Toast.LENGTH_SHORT).show()
-                }
-            )
-        }
+
 
     Button(
         onClick = {
@@ -218,7 +202,7 @@ fun Profile(context: Context, databaseReference: DatabaseReference,firebaseDatab
 
             val currentUser = FirebaseAuth.getInstance().currentUser
             val uid = currentUser?.uid ?: ""
-            var empObj = UsersObj(uid, name, lastname, bio, imageUrl ?: "")
+            var empObj = UserModel(name, lastname, bio, imageUrl ?: "",uid )
 
 
             Log.d(TAG, "Value is: " + empObj)
@@ -236,7 +220,7 @@ fun Profile(context: Context, databaseReference: DatabaseReference,firebaseDatab
                     Log.d(TAG, "Value is: " + empObj)
                     //Toast.makeText(context, "Data added to firebase", Toast.LENGTH_SHORT).show()
                     imageUri?.let { uri ->
-                        saveImage(name,lastname,bio, uri,uid) }
+                        saveImage(name,lastname,bio, uri,uid,context) }
                 }
 
                 private val storageRef = Firebase.storage.reference
@@ -247,12 +231,13 @@ fun Profile(context: Context, databaseReference: DatabaseReference,firebaseDatab
                     lastname: String,
                     bio: String,
                     imageUri: Uri,
-                    uid: String?
+                    uid: String?,
+                    context : Context
                 ) {
                     val uploadTask = imageRef.putFile(imageUri)
                     uploadTask.addOnSuccessListener { _ ->
                         imageRef.downloadUrl.addOnSuccessListener {downloadUri ->
-                            saveData(name, lastname, bio, downloadUri.toString(), uid)
+                            saveData(name, lastname, bio, downloadUri.toString(), uid,context)
                             //Toast.makeText(context,"Udało się zaladować zdjecie do savedata",Toast.LENGTH_LONG).show()
                         }.addOnFailureListener { exception ->
                             //Toast.makeText(context,"Nie udało się zaladować zdjecie do savedata",Toast.LENGTH_LONG).show()
@@ -269,10 +254,11 @@ fun Profile(context: Context, databaseReference: DatabaseReference,firebaseDatab
                     lastname: String,
                     bio: String,
                     imageUrl: String,
-                    uid: String?
+                    uid: String?,
+                    context: Context
 
                 ) {
-                    val userData = UserModel(name,lastname,bio,imageUrl)
+                    val userData = UserModel(name,lastname,bio,imageUrl,uid!!)
 
                     val database: FirebaseDatabase = FirebaseDatabase.getInstance("https://clonefbandroidios-default-rtdb.europe-west1.firebasedatabase.app")
                     val usersRef = database.getReference("users")
@@ -280,7 +266,7 @@ fun Profile(context: Context, databaseReference: DatabaseReference,firebaseDatab
                             //tutaj jeszcze dziala
                     usersRef.child(uid!!).setValue(userData)
                         .addOnSuccessListener {
-                            SharedPref.storeData(name,lastname,bio, imageUrl,context)
+                            SharedPref.storeData(name,lastname,bio,imageUrl,uid,context)
                             Toast.makeText(context,"zaladowano do sharedpref",Toast.LENGTH_LONG).show()
                         }.addOnFailureListener { exception ->
                             Toast.makeText(context,"Nie zaladowano do sharedpref",Toast.LENGTH_LONG).show()
@@ -297,23 +283,34 @@ fun Profile(context: Context, databaseReference: DatabaseReference,firebaseDatab
             })
         }, modifier = Modifier.fillMaxWidth().padding(15.dp)
     ) {
-        Text(text = "add firebase", modifier = Modifier.padding(5.dp))
+        Text(text = "Zapisz", modifier = Modifier.padding(5.dp))
     }
 }
-}
+    LaunchedEffect(Unit) {
+        // Pobierz dane użytkownika z Firebase
+        firebaseDatabaseManager.readUserData(
+            onDataRead = { userData ->
+                // Obsłuż odczytane dane użytkownika
+                name = userData.name
+                lastname = userData.lastname
+                bio = userData.bio
+                val currentUser = FirebaseAuth.getInstance().currentUser
+                val uid = currentUser?.uid ?: ""
 
+                //imageUri = userData.toString
+                val pictureUrl = userData.image // Zakładając, że userData.Picture zawiera adres URL jako String
+                imageUri = if (!pictureUrl.isNullOrEmpty()) Uri.parse(pictureUrl) else null
 
+                Log.d(TAG,"Imie : ${name}")
+                Log.d(TAG,"Nazwisko : ${lastname}")
+                Log.d(TAG,"uid : ${uid}")
 
-
-//
-@Preview
-@Composable
-fun show(){
-
-
-    val database = FirebaseDatabase.getInstance("https://clonefbandroidios-default-rtdb.europe-west1.firebasedatabase.app")
-    val databaseReference = database.getReference("EmployeeInfo");
-    val firebaseDatabaseManager = FirebaseDatabaseManager()
-    Profile(LocalContext.current, databaseReference,firebaseDatabaseManager)
+            },
+            onError = { error ->
+                Log.w(TAG, "Failed to read user data.", error.toException())
+                Toast.makeText(context, "Nie udało się pobrać danych!!", Toast.LENGTH_SHORT).show()
+            }
+        )
+    }
 }
 

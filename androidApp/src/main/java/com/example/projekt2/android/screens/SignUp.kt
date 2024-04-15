@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.projekt2.android.Components.EmailText
 import com.example.projekt2.android.Components.HomeScreenn
 import com.example.projekt2.android.Components.NormalTextComponent
@@ -25,12 +26,12 @@ import com.example.projekt2.android.Components.RegistrationButton
 import com.example.projekt2.android.Data.Registration.SignUpUIEvent
 import com.example.projekt2.android.Data.Registration.SignUpViewModel
 import com.example.projekt2.android.R
-import com.example.projekt2.android.navigation.PostOfficeAppRouter
-import com.example.projekt2.android.navigation.Screens
+import com.example.projekt2.android.navigation.Routes
 
 
 @Composable
-fun SignUp(SignUpViewModel: SignUpViewModel = viewModel()) {
+fun SignUp(navHostController : NavHostController) {
+    val SignUpViewModel: SignUpViewModel = viewModel()
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center) {
         Surface(
@@ -77,17 +78,20 @@ fun SignUp(SignUpViewModel: SignUpViewModel = viewModel()) {
                     onTextSelected={
                         SignUpViewModel.onEvent(SignUpUIEvent.LastNameChanged(it))
                     })
-                Spacer(modifier=Modifier.height(10.dp))
+                Spacer(modifier=Modifier.height(280.dp))
                 RegistrationButton(
 
                     value = stringResource(id=R.string.register),
                     onButtonClicked = {
                         SignUpViewModel.onEvent(SignUpUIEvent.RegisterButtonClicked)
+                        navHostController.navigate(Routes.SignIn.routes)
                     },
                     isEnabled = SignUpViewModel.allValidationsPassed.value
                 )
-                Spacer(modifier=Modifier.height(10.dp))
-                HomeScreenn(onTextSelected={ PostOfficeAppRouter.navigateTo(Screens.SignIn)})
+                Spacer(modifier=Modifier.height(15.dp))
+                HomeScreenn(onTextSelected={ //PostOfficeAppRouter.navigateTo(Screens.SignIn)
+                    navHostController.navigate(Routes.SignIn.routes)
+                })
 
             }
         }

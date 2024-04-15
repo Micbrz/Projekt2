@@ -9,10 +9,15 @@
     <string name="gotologin">Przejdź do Logowania</string>>
     <string name="logIn">Zaloguj się</string>>
     <string name="Login">Logowanie</string>>
+    <string name="GoogleLogin">Zaloguj z użyciem Google</string>>
     <string name="logout">Wyloguj</string>
     <string name="Hidepassword">Hide Password</string>
     <string name="Showpassword">Show Password</string>
     <string name="Profile">Profil</string>>
     <string name="Chat">chat</string>>
-
+    <string name="Search">Szukaj</string>>
+    <string name="MainProfile">Glowny profil</string>
+    <string name="default_notification_channel_id" translatable="false">default_channel_id</string>
+    <string name="default_web_client_id">244604387044-bvc4l3jlntofvvpo5390af2jiebpngjk.apps.googleusercontent.com</string>
+    <string name="or">lub</string>>
 </resources>

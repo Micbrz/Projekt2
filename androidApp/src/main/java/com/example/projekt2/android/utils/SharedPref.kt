@@ -8,11 +8,11 @@ object SharedPref {
 
     fun storeData(
         name: String,
-        lastname:String, bio:String, imageUrl:String,
+        lastname:String, bio:String, imageUrl:String,uid:String,
         context: Context){
         val sharedPreferences = context.getSharedPreferences("users",MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putString("Name", name)
+        editor.putString("name", name)
         editor.putString("LastName", lastname)
         editor.putString("Bio", bio)
         editor.putString("Picture",imageUrl)
@@ -21,7 +21,7 @@ object SharedPref {
 
     fun getName(context:Context): String{
         val sharedPreferences = context.getSharedPreferences("users",MODE_PRIVATE)
-        return sharedPreferences.getString("Name","")!!
+        return sharedPreferences.getString("name","")!!
     }
     fun getLastName(context:Context): String{
         val sharedPreferences = context.getSharedPreferences("users",MODE_PRIVATE)

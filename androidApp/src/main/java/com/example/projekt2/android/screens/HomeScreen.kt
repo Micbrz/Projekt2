@@ -11,6 +11,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,27 +37,23 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.projekt2.android.Components.RegistrationButton
 import com.example.projekt2.android.Data.Registration.SignUpViewModel
 import com.example.projekt2.android.Data.ViewModel.HomeViewModel
 import com.example.projekt2.android.ItemView.ThreadItem
 import com.example.projekt2.android.R
-import com.example.projekt2.android.navigation.PostOfficeAppRouter
-import com.example.projekt2.android.navigation.Screens
+import com.example.projekt2.android.navigation.Routes
 import com.google.firebase.auth.FirebaseAuth
 
-//wyszukiwarka profili
-
-
-
-
-// tutaj będą pojawiać się posty znajomych
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(loginViewModel: SignUpViewModel = viewModel()) {
+fun HomeScreen(navHostController: NavHostController = rememberNavController(), loginViewModel: SignUpViewModel = viewModel()) {
     val context = LocalContext.current
     var expandedMenu by remember {mutableStateOf (false)}
+    val homeViewModel: HomeViewModel = viewModel()
 
     Scaffold(
 
@@ -64,17 +62,37 @@ fun HomeScreen(loginViewModel: SignUpViewModel = viewModel()) {
                 colors = topAppBarColors(
                     containerColor = Color.Cyan,
                 ), //kolor tła paska narzędziowego
-                title = { LogoImage() },
+                title = {
+                    IconButton(
+                    onClick = {
+                        navHostController.navigate(Routes.NotificationScreen.routes)
+                    },
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    Icon(imageVector = Icons.Default.Notifications, contentDescription = "Powiadomienia")
+
+                }
+                        },
+
                 navigationIcon = {
                     IconButton(onClick = { expandedMenu = !expandedMenu }) {
                         Icon(Icons.Default.Menu, contentDescription = "Menu")
                     }
                 },
                 actions = {
-                    IconButton(onClick = { PostOfficeAppRouter.navigateTo(Screens.AddPost) }) {
-                        Icon(Icons.Default.Add, contentDescription = "More")
+                    IconButton(onClick = { /*PostOfficeAppRouter.navigateTo(Screens.AddPost)*/
+                        navHostController.navigate(Routes.Search.routes)}) {
+                        Icon(Icons.Default.Search, contentDescription = "More")
                     }
+
+                    IconButton(onClick = {
+                        navHostController.navigate(Routes.AddPost.routes)}) {
+                        Icon(Icons.Default.Add, contentDescription = "Add post")
+                    }
+
+
                 },
+
 
 
                 )
@@ -94,14 +112,13 @@ fun HomeScreen(loginViewModel: SignUpViewModel = viewModel()) {
             ) {
                 DropdownMenuItem(text = { Text("Wybierz opcje") },
                     onClick = {
-
                         Toast.makeText(context, "wybrano opcje: ", Toast.LENGTH_LONG)
                     })
 
                 RegistrationButton(
                     value = stringResource(id = R.string.Profile),
                     onButtonClicked = {
-                        PostOfficeAppRouter.navigateTo(Screens.Profile)
+                        navHostController.navigate(Routes.Profile.routes)
                     },
                     isEnabled = true
                 )
@@ -109,7 +126,22 @@ fun HomeScreen(loginViewModel: SignUpViewModel = viewModel()) {
                 RegistrationButton(
                     value = stringResource(id = R.string.Chat),
                     onButtonClicked = {
-                        PostOfficeAppRouter.navigateTo(Screens.ChatApplication)
+                        navHostController.navigate(Routes.ConversationsScreen.routes)
+                    },
+                    isEnabled = true
+                )
+                /*RegistrationButton(
+                    value = stringResource(id = R.string.Search),
+                    onButtonClicked = {
+
+                        navHostController.navigate(Routes.Search.routes)
+                    },
+                    isEnabled = true
+                )*/
+                RegistrationButton(
+                    value = stringResource(id = R.string.MainProfile),
+                    onButtonClicked = {
+                        navHostController.navigate(Routes.MainProfile.routes)
                     },
                     isEnabled = true
                 )
@@ -117,7 +149,7 @@ fun HomeScreen(loginViewModel: SignUpViewModel = viewModel()) {
                     value = stringResource(id = R.string.logout),
                     onButtonClicked = {
                         loginViewModel.logout()
-                        PostOfficeAppRouter.navigateTo(Screens.SignIn)
+                        navHostController.navigate(Routes.SignIn.routes)
                     },
                     isEnabled = true
                 )
@@ -126,9 +158,9 @@ fun HomeScreen(loginViewModel: SignUpViewModel = viewModel()) {
 
 
         }
-        val homeViewModel: HomeViewModel = viewModel()
+
         val threadAndUsers by homeViewModel.threadAndUsers.observeAsState(null)
-        LazyColumn(modifier = Modifier.padding(top = 47.dp, end = 15.dp)){
+        LazyColumn(modifier = Modifier.padding(top = 48.dp)){
 
             items(threadAndUsers ?: emptyList()){pairs ->
                 ThreadItem(thread = pairs.first,users = pairs.second, FirebaseAuth.getInstance().currentUser!!.uid)
@@ -143,8 +175,8 @@ fun HomeScreen(loginViewModel: SignUpViewModel = viewModel()) {
 }
 @Composable
 fun LogoImage() {
-    // Tutaj użyj odpowiedniego obrazka Twojego logo
-    val painter: Painter = painterResource(id = R.drawable.ic_user) // Zmodyfikuj, aby załadować swoje logo
+
+    val painter: Painter = painterResource(id = R.drawable.ic_user)
     Image(
         painter = painter,
         contentDescription = "Logo"
