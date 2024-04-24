@@ -29,10 +29,10 @@ class FirebaseDatabaseManager {
         followersRef.set(mapOf("followersIds" to listOf<String>()))
         if(uid != null){
             val userData = mapOf(
-                "Bio" to employeeObj.bio,
-                "Name" to employeeObj.name,
-                "LastName" to employeeObj.lastname,
-                "Picture" to employeeObj.image,
+                "name" to employeeObj.name,
+                "lastname" to employeeObj.lastname,
+                "bio" to employeeObj.bio,
+                "image" to employeeObj.image,
                 "uid" to employeeObj.uid
             )
             val userKey = usersRef.push().key // generowanie unikalnego klucza użytkownika

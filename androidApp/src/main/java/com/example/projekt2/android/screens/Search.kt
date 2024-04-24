@@ -60,7 +60,9 @@ fun Search(navHostController: NavHostController){
 
     LazyColumn(modifier = Modifier.padding(top = 48.dp)){
         if (userList != null && userList!!.isNotEmpty()) {
-            val filterItems = userList!!.filter { it.name!!.contains(search, ignoreCase = false) }
+
+            val filterItems = userList!!.filter {val fullName = "${it.name} ${it.lastname}"
+                it.name!!.contains(search, ignoreCase = false) || it.lastname!!.contains(search, ignoreCase = false) || fullName.contains(search, ignoreCase = false) }
 
             items(filterItems ?: emptyList()) { pairs ->
                 UserItem(pairs,navHostController = navHostController)

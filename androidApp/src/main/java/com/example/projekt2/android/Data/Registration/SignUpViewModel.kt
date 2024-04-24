@@ -1,16 +1,16 @@
 package com.example.projekt2.android.Data.Registration
+
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.projekt2.android.Data.Models.UserModel
-
 import com.example.projekt2.android.rules.Validator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 
-class SignUpViewModel : ViewModel(){
+class SignUpViewModel() : ViewModel(){
     private val TAG = SignUpViewModel::class.simpleName
     var SignUpUIState = mutableStateOf(SignUpUIState())
     var allValidationsPassed = mutableStateOf(false)

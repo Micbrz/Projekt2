@@ -5,17 +5,18 @@ import android.content.Context.MODE_PRIVATE
 
 
 object SharedPref {
+    
 
     fun storeData(
         name: String,
-        lastname:String, bio:String, imageUrl:String,uid:String,
+        lastname:String, bio:String, image:String,uid:String,
         context: Context){
         val sharedPreferences = context.getSharedPreferences("users",MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("name", name)
-        editor.putString("LastName", lastname)
-        editor.putString("Bio", bio)
-        editor.putString("Picture",imageUrl)
+        editor.putString("lastname", lastname)
+        editor.putString("bio", bio)
+        editor.putString("image",image)
         editor.apply()
     }
 
@@ -25,14 +26,14 @@ object SharedPref {
     }
     fun getLastName(context:Context): String{
         val sharedPreferences = context.getSharedPreferences("users",MODE_PRIVATE)
-        return sharedPreferences.getString("LastName","")!!
+        return sharedPreferences.getString("lastname","")!!
     }
     fun getBio(context:Context): String{
         val sharedPreferences = context.getSharedPreferences("users",MODE_PRIVATE)
-        return sharedPreferences.getString("Bio","")!!
+        return sharedPreferences.getString("bio","")!!
     }
     fun getImage(context:Context): String{
         val sharedPreferences = context.getSharedPreferences("users",MODE_PRIVATE)
-        return sharedPreferences.getString("Picture","")!!
+        return sharedPreferences.getString("image","")!!
     }
 }

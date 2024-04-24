@@ -253,12 +253,12 @@ fun Profile(navHostController: NavHostController) {
                     name: String,
                     lastname: String,
                     bio: String,
-                    imageUrl: String,
+                    image: String,
                     uid: String?,
                     context: Context
 
                 ) {
-                    val userData = UserModel(name,lastname,bio,imageUrl,uid!!)
+                    val userData = UserModel(name,lastname,bio,image,uid!!)
 
                     val database: FirebaseDatabase = FirebaseDatabase.getInstance("https://clonefbandroidios-default-rtdb.europe-west1.firebasedatabase.app")
                     val usersRef = database.getReference("users")
@@ -266,7 +266,7 @@ fun Profile(navHostController: NavHostController) {
                             //tutaj jeszcze dziala
                     usersRef.child(uid!!).setValue(userData)
                         .addOnSuccessListener {
-                            SharedPref.storeData(name,lastname,bio,imageUrl,uid,context)
+                            SharedPref.storeData(name,lastname,bio,image,uid,context)
                             Toast.makeText(context,"zaladowano do sharedpref",Toast.LENGTH_LONG).show()
                         }.addOnFailureListener { exception ->
                             Toast.makeText(context,"Nie zaladowano do sharedpref",Toast.LENGTH_LONG).show()

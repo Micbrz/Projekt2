@@ -23,11 +23,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
-import com.example.projekt2.android.Components.BackButton
 import com.example.projekt2.android.Data.Models.UserModel
 import com.example.projekt2.android.Data.ViewModel.UserViewModel
 import com.example.projekt2.android.ItemView.ThreadItem
-import com.example.projekt2.android.navigation.Routes
 import com.example.projekt2.android.utils.SharedPref
 import com.google.firebase.auth.FirebaseAuth
 
@@ -68,7 +66,7 @@ fun MainProfile(navHostController: NavHostController){
             Log.d("ID", "Current user ID: $user.name")
             Log.d("ID", "Current user ID: $user.id")
 
-            BackButton(onClick = { navHostController.navigate(Routes.HomeScreen.routes) })
+
             ConstraintLayout(modifier = Modifier.fillMaxSize().padding(16.dp)){
 
                 val ( text,lastname, logo, Name, bio,followers,following) = createRefs()
@@ -128,10 +126,11 @@ fun MainProfile(navHostController: NavHostController){
             }
         }
 
-        items(threads ?: emptyList()){ pair ->
-            ThreadItem(thread = pair , users = user, userId = SharedPref.getName(context))
 
-        }
+            items(threads ?: emptyList()){ pair ->
+                ThreadItem(thread = pair , users = user, userId = SharedPref.getName(context))
+                }
+
     }
 
 
